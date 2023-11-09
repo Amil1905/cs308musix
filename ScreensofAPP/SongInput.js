@@ -76,7 +76,7 @@ const styles=StyleSheet.create( {
     },
     musixx:{
         fontSize:50,
-        color:"green"
+        color:"white"
 
     },
     Ekran:{

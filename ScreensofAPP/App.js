@@ -7,6 +7,8 @@ import Register from '../ScreensofAPP/Register';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SongInput from '../ScreensofAPP/SongInput';
 import MainPage from '../ScreensofAPP/MainPage';
+import BatchInput from '../ScreensofAPP/BatchInput';
+import Api from '../ScreensofAPP/Api';
 
 
 
@@ -23,6 +25,10 @@ function App() {
                 <Stack.Screen name="SongInput" component={SongInput}
                 />
                 <Stack.Screen name="MainPage" component={MainPage}
+                />  
+                <Stack.Screen name="BatchInput" component={BatchInput}
+                /> 
+                                <Stack.Screen name="Api" component={Api}
                 />  
             </Stack.Navigator>
 

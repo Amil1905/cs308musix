@@ -24,6 +24,12 @@ function Login(props,{navigation}) {
    function navigaetoMain() {
     props.navigation.navigate('MainPage')
    }
+   function navigaetoBatch() {
+    props.navigation.navigate('BatchInput')
+   }
+   function navigaetoApi() {
+    props.navigation.navigate('Api')
+   }
   return (
     <View>
       <View style={styles.border1}>
@@ -83,6 +89,20 @@ function Login(props,{navigation}) {
               }}>
           <Text style={styles.register}>
             MainPage
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity   onPress={() => {
+          navigaetoBatch();
+              }}>
+          <Text style={styles.register}>
+            Batch
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity   onPress={() => {
+          navigaetoApi();
+              }}>
+          <Text style={styles.register}>
+            Api
           </Text>
         </TouchableOpacity>
 

@@ -2,7 +2,8 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import auth from '@react-native-firebase/auth';
 import {
   Button,
   SafeAreaView,
@@ -15,7 +16,32 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-function Register() {
+function Register(props) {
+  const [Email, setEmail]=useState("")
+    const [Pass, setPass]=useState("")
+
+    function Signer() {
+        auth()
+          .createUserWithEmailAndPassword(Email, Pass)
+          .then(() => {
+            console.log('User account created & signed in!');
+
+            // Navigate to the WelcomePage after successful signup
+            props.navigation.navigate('MainPage', { item: Email });
+          })
+          .catch(error => {
+            if (error.code === 'auth/email-already-in-use') {
+              console.log('That email address is already in use!');
+
+            }
+    
+            if (error.code === 'auth/invalid-email') {
+              console.log('That email address is invalid!');
+            }
+    
+            console.error(error);
+          });
+      }
   return (
     <View>
       <View style={styles.border1}>
@@ -31,7 +57,10 @@ function Register() {
           Email
         </Text>
         <View style={styles.loginrectangle}>
-          <TextInput
+          <TextInput 
+                        onChangeText={(Email) =>
+                          setEmail(Email)
+                        }
 
           />
 
@@ -42,12 +71,17 @@ function Register() {
         <View style={styles.loginrectangle2}>
           <TextInput 
           secureTextEntry={true}
+          onChangeText={(Pass) =>
+            setPass(Pass)
+          }
       
             
           />
 
         </View>
-        <TouchableOpacity style={styles.loginbut}>
+        <TouchableOpacity style={styles.loginbut}       onPress={() => {
+        Signer();
+      }}>
           <View >
             <Text style={styles.giris}>
               Hesap oluştur

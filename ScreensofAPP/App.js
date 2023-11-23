@@ -9,6 +9,8 @@ import SongInput from '../ScreensofAPP/SongInput';
 import MainPage from '../ScreensofAPP/MainPage';
 import BatchInput from '../ScreensofAPP/BatchInput';
 import Api from '../ScreensofAPP/Api';
+import Recommendation from '../ScreensofAPP/Recommendation';
+import Dashboard from '../ScreensofAPP/Dashboard';
 
 
 
@@ -29,6 +31,10 @@ function App() {
                 <Stack.Screen name="BatchInput" component={BatchInput}
                 /> 
                                 <Stack.Screen name="Api" component={Api}
+                />  
+                                                <Stack.Screen name="Recommendation" component={Recommendation}
+                />  
+                                                <Stack.Screen name="Dashboard" component={Dashboard}
                 />  
             </Stack.Navigator>
 

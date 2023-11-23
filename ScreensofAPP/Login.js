@@ -1,6 +1,13 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-alert */
+/* eslint-disable semi */
+/* eslint-disable func-call-spacing */
+/* eslint-disable keyword-spacing */
+/* eslint-disable curly */
+/* eslint-disable quotes */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   SafeAreaView,
@@ -13,8 +20,62 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import auth from '@react-native-firebase/auth';
 
 function Login(props,{navigation}) {
+
+  const [Email, setEmail]=useState("")
+  const [Pass, setPass]=useState("")
+  const [errortxt, setErortxt]=useState("")
+  const [Pagepasser, setPagepasser]=useState(false)
+
+
+
+ 
+
+  const handlLogin =() => {
+    setErortxt("");
+    if(!Email){
+      alert("Please fill Email")
+      return;
+    }
+    if(!Pass){
+      alert("Please fill Password")
+      return;
+    }
+    auth()
+    .signInWithEmailAndPassword(Email,Pass)
+    .then ((user) => {
+      //console.log(user);
+      if(user) {
+        //setSignedIn(true)   
+        setPagepasser(true)
+        props.navigation.navigate('MainPage',{item:Email});
+        //console.log(stringValues)  
+
+        //navigator()
+        
+
+
+      }
+      else {
+        setPagepasser(false)
+        //setSignedIn(false)
+
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      if(error.code=="auth/invalid-email")
+        setErortxt(error.message);
+      else if (error.code === "auth/user-not-found")
+        setErortxt("No User Found");
+      else {
+        setErortxt("Please check your email id or password");
+      }  
+    });
+   
+  };
   function navigaetosignup() {
    props.navigation.navigate('Register')
   }
@@ -29,6 +90,12 @@ function Login(props,{navigation}) {
    }
    function navigaetoApi() {
     props.navigation.navigate('Api')
+   }
+   function navigaetoReco() {
+    props.navigation.navigate('Recommendation')
+   }
+   function navigaetoDash() {
+    props.navigation.navigate('Dashboard')
    }
   return (
     <View>
@@ -45,7 +112,9 @@ function Login(props,{navigation}) {
           Email
         </Text>
         <View style={styles.loginrectangle}>
-          <TextInput
+          <TextInput           onChangeText={(Email) =>
+            setEmail(Email)
+          }
 
           />
 
@@ -56,12 +125,17 @@ function Login(props,{navigation}) {
         <View style={styles.loginrectangle2}>
           <TextInput 
           secureTextEntry={true}
+          onChangeText={(Pass) =>
+            setPass(Pass)
+          }
       
             
           />
 
         </View>
-        <TouchableOpacity style={styles.loginbut}>
+        <TouchableOpacity style={styles.loginbut}   onPress={() => {
+        handlLogin(Email);
+          }}>
           <View >
             <Text style={styles.giris}>
               Giriş Yap
@@ -103,6 +177,20 @@ function Login(props,{navigation}) {
               }}>
           <Text style={styles.register}>
             Api
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity   onPress={() => {
+          navigaetoReco();
+              }}>
+          <Text style={styles.register}>
+            Reco
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity   onPress={() => {
+          navigaetoDash();
+              }}>
+          <Text style={styles.register}>
+            Dash
           </Text>
         </TouchableOpacity>
 

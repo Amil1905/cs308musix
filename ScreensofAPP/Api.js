@@ -16,8 +16,9 @@ import {
   View,
 } from 'react-native';
 
-function Api() {
-    const [data, setData]=useState([]); 
+function Api(props) {
+    const [data, setData]=useState([]);
+
 
 
     const Getsongs = async () => {

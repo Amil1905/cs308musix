@@ -1,5 +1,6 @@
+/* eslint-disable no-undef */
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 
 const musicStyles = [
@@ -28,6 +29,13 @@ const Main = (props) => {
    function navigaetoLogin() {
     props.navigation.navigate('Login')
    }
+   function navigaetoApi() {
+    props.navigation.navigate('Api')
+   }
+ 
+
+
+
     return (
       <View style={styles.container}>
         {/* Header (Always displayed) */}
@@ -55,12 +63,18 @@ const Main = (props) => {
           {/* Music Style Choices */}
           <View style={styles.choices}>
             {musicStyles.map((style, index) => (
-              <TouchableOpacity key={index} style={[styles.styleButton, { backgroundColor: style.color }]}>
+              <TouchableOpacity key={index}  style={[styles.styleButton, { backgroundColor: style.color }]}  onPress={() => {
+                navigaetoApi();
+                    }} >
+                  
                 <Text style={styles.styleButtonText}>{style.name}</Text>
               </TouchableOpacity>
+             
             ))}
           </View>
+          
         </ScrollView>
+        
   
         {/* Bottom Bar (Always displayed) */}
         <View style={styles.bottomBar}>

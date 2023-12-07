@@ -1,181 +1,153 @@
-/* eslint-disable quotes */
-/* eslint-disable comma-dangle */
-/* eslint-disable no-trailing-spaces */
 /* eslint-disable prettier/prettier */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import {
-  Button,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  useColorScheme,
   View,
+  StyleSheet,
 } from 'react-native';
+
 function Register(props) {
-  const [Email, setEmail]=useState("")
-    const [Pass, setPass]=useState("")
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
 
-    function Signer() {
-        auth()
-          .createUserWithEmailAndPassword(Email, Pass)
-          .then(() => {
-            console.log('User account created & signed in!');
+  function Signer() {
+    auth()
+      .createUserWithEmailAndPassword(email, pass)
+      .then(() => {
+        console.log('User account created & signed in!');
+        props.navigation.navigate('Login', { item: email });
+      })
+      .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+          console.log('That email address is already in use!');
+        }
 
-            // Navigate to the WelcomePage after successful signup
-            props.navigation.navigate('MainPage', { item: Email });
-          })
-          .catch(error => {
-            if (error.code === 'auth/email-already-in-use') {
-              console.log('That email address is already in use!');
+        if (error.code === 'auth/invalid-email') {
+          console.log('That email address is invalid!');
+        }
 
-            }
-    
-            if (error.code === 'auth/invalid-email') {
-              console.log('That email address is invalid!');
-            }
-    
-            console.error(error);
-          });
-      }
-  return (
-    <View>
-      <View style={styles.border1}>
-        <View style={styles.rectangle}>
-          <Text style={styles.textmusix}>
-            Musix
-          </Text>
-          <Text style={styles.logintext}>
-          Hesap Oluştur
-        </Text>
-        </View>
-        <Text style={styles.email}>
-          Email
-        </Text>
-        <View style={styles.loginrectangle}>
-          <TextInput 
-                        onChangeText={(Email) =>
-                          setEmail(Email)
-                        }
-
-          />
-
-        </View>
-        <Text style={styles.sifre}>
-          Şifre
-        </Text>
-        <View style={styles.loginrectangle2}>
-          <TextInput 
-          secureTextEntry={true}
-          onChangeText={(Pass) =>
-            setPass(Pass)
-          }
-      
-            
-          />
-
-        </View>
-        <TouchableOpacity style={styles.loginbut}       onPress={() => {
-        Signer();
-      }}>
-          <View >
-            <Text style={styles.giris}>
-              Hesap oluştur
-            </Text>
-          </View>
-    
-        </TouchableOpacity>
-
-
-      </View>      
-    </View>
-
-  );
-
-}
-
-
-const styles=StyleSheet.create( {
-  border1:{
-    width:350,
-    height:450,
-    borderRadius:7,
-    borderWidth:5,
-    borderColor:"grey",
-    justifyContent:"center",
-    marginLeft:20,
-    marginTop:150,
-    alignItems:"center"
-  },
-  rectangle:{
-    color:"grey",
-    borderWidth:1,
-    width:150,
-    height:50,
-    alignItems:"center",
-    backgroundColor:"grey",
-    marginBottom:80
-
-  },
-  textmusix:{
-    color:"white",
-    fontSize:40
-  },
-  logintext:{
-    fontSize:30,
-    marginTop:10
-
-
-  },
-  loginrectangle:{
-    width:300,
-    height:50,
-    borderWidth:5,
-    marginBottom:10,
-    borderRadius:10,
-    borderColor:"grey"
-
-
-  },
-  loginrectangle2:{
-    width:300,
-    height:50,
-    borderWidth:5,
-    borderRadius:10,
-    borderColor:"grey"
-
-  },
-  email:{
-    color:"black",
-    marginRight:280,
-    margin:5
-  },
-  sifre:{
-    color:"black",
-    marginRight:280,
-    margin:5,
-  },
-  loginbut:{
-    width:300,
-    height:50,
-    backgroundColor:"blue",
-    alignItems:"center",
-    margin:10,
-    borderRadius:10,
-  },
-  giris:{
-    color:"white",
-    margin:10
-  },
-  register:{
-    color:"red"
+        console.error(error);
+      });
   }
 
+  return (
+    <View style={styles.container}>
+      <View style={styles.rectangle}>
+        <Text style={styles.textmusix}>Register to musiX</Text>
+      </View>
+      <Text></Text>
+      <Text style={styles.email}>Email</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          onChangeText={Email => setEmail(Email)}
+          style={styles.input}
+        />
+      </View>
+      <Text></Text>
+      <Text style={styles.sifre}>Password</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          secureTextEntry={true}
+          onChangeText={Pass => setPass(Pass)}
+          style={styles.input}
+        />
+      </View>
+      <Text></Text>
+      <Text></Text>
+      <TouchableOpacity
+        style={styles.loginbut}
+        onPress={() => {
+          Signer();
+        }}
+      >
+        <Text style={styles.giris}>Register</Text>
+      </TouchableOpacity>
+      <View style={styles.bottomBar}>
+        <Text style={styles.bottomBarText}>musiX</Text>
+      </View>
+    </View>
+  );
+}
 
-})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#343434',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rectangle: {
+    backgroundColor: '#1DB954',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '100%',
+  },
+  textmusix: {
+    color: 'white',
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  logintext: {
+    color: 'white',
+    fontSize: 30,
+    marginTop: 10,
+  },
+  inputContainer: {
+    width: '80%',
+    height: 50,
+    borderWidth: 1,
+    borderColor: 'grey',
+    marginBottom: 10,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+  },
+  input: {
+    flex: 1,
+    color: 'white',
+  },
+  email: {
+    color: 'white',
+    marginLeft: 10,
+    marginBottom: 5,
+  },
+  sifre: {
+    color: 'white',
+    marginLeft: 10,
+    marginBottom: 5,
+  },
+  loginbut: {
+    width: '80%',
+    height: 50,
+    backgroundColor: '#1DB954',
+    alignItems: 'center',
+    margin: 10,
+    borderRadius: 10,
+  },
+  giris: {
+    color: 'white',
+    margin: 10,
+    fontSize: 16,
+    fontWeight:'bold',
+  },
+  bottomBar: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#282828',
+    padding: 10,
+    marginTop: 'auto',
+  },
+  bottomBarText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});
 
 export default Register;

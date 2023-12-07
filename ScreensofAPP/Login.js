@@ -7,279 +7,205 @@
 /* eslint-disable quotes */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable prettier/prettier */
-import React, { useState, useEffect } from 'react';
-import {
-  Button,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, { useState } from 'react';
+import { TextInput, Text, TouchableOpacity, StyleSheet, View, Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 
-function Login(props,{navigation}) {
+function Login({ navigation }) {
+  const [Email, setEmail] = useState('');
+  const [Pass, setPass] = useState('');
+  const [errortxt, setErortxt] = useState('');
+  const [Pagepasser, setPagepasser] = useState(false);
 
-  const [Email, setEmail]=useState("")
-  const [Pass, setPass]=useState("")
-  const [errortxt, setErortxt]=useState("")
-  const [Pagepasser, setPagepasser]=useState(false)
-
-
-
- 
-
-  const handlLogin =() => {
-    setErortxt("");
-    if(!Email){
-      alert("Please fill Email")
+  const handlLogin = () => {
+    setErortxt('');
+    if (!Email) {
+      Alert.alert('Please fill Email');
       return;
     }
-    if(!Pass){
-      alert("Please fill Password")
+    if (!Pass) {
+      Alert.alert('Please fill Password');
       return;
     }
+
     auth()
-    .signInWithEmailAndPassword(Email,Pass)
-    .then ((user) => {
-      //console.log(user);
-      if(user) {
-        //setSignedIn(true)   
-        setPagepasser(true)
-        props.navigation.navigate('MainPage',{item:Email});
-        //console.log(stringValues)  
-
-        //navigator()
-        
-
-
-      }
-      else {
-        setPagepasser(false)
-        //setSignedIn(false)
-
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      if(error.code=="auth/invalid-email")
-        setErortxt(error.message);
-      else if (error.code === "auth/user-not-found")
-        setErortxt("No User Found");
-      else {
-        setErortxt("Please check your email id or password");
-      }  
-    });
-   
+      .signInWithEmailAndPassword(Email, Pass)
+      .then((user) => {
+        if (user) {
+          setPagepasser(true);
+          sendEmailToApi(Email);
+          navigation.navigate('MainPage', { item: Email });
+        } else {
+          setPagepasser(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.code === 'auth/invalid-email') setErortxt(error.message);
+        else if (error.code === 'auth/user-not-found') setErortxt('No User Found');
+        else {
+          setErortxt('Please check your email id or password');
+        }
+      });
   };
+
   function navigaetosignup() {
-   props.navigation.navigate('Register')
+    navigation.navigate('Register');
   }
-  function navigaetoinput() {
-    props.navigation.navigate('SongInput')
-   }
-   function navigaetoMain() {
-    props.navigation.navigate('MainPage')
-   }
-   function navigaetoBatch() {
-    props.navigation.navigate('BatchInput')
-   }
-   function navigaetoApi() {
-    props.navigation.navigate('Api')
-   }
-   function navigaetoReco() {
-    props.navigation.navigate('Recommendation')
-   }
-   function navigaetoDash() {
-    props.navigation.navigate('Dashboard')
-   }
+
+  const sendEmailToApi = async (email) => {
+    try {
+      const apiUrl = 'http://192.168.1.106:3000/api/users'; // Replace with your actual API endpoint
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        throw new Error("HTTP error! Status: ${response.status}");
+      }
+
+      const responseData = await response.json();
+      console.log('API Response:', responseData);
+
+      // Handle the API response as needed
+    } catch (error) {
+      console.error('Error sending email to API:', error);
+    }
+  };
+
   return (
-    <View>
-      <View style={styles.border1}>
-        <View style={styles.rectangle}>
-          <Text style={styles.textmusix}>
-            Musix
-          </Text>
-          <Text style={styles.logintext}>
-          Giriş Yap
-        </Text>
-        </View>
-        <Text style={styles.email}>
-          Email
-        </Text>
-        <View style={styles.loginrectangle}>
-          <TextInput           onChangeText={(Email) =>
-            setEmail(Email)
-          }
+    <View style={styles.container}>
+      <View style={styles.rectangle}>
+        <Text style={styles.textmusix}>Login to musiX</Text>
+      </View>
 
-          />
+      <Text style={styles.email}>Email</Text>
+      <View style={styles.loginrectangle}>
+        <TextInput
+          onChangeText={(Email) => setEmail(Email)}
+          style={styles.inputText}
+        />
+      </View>
 
-        </View>
-        <Text style={styles.sifre}>
-          Şifre
-        </Text>
-        <View style={styles.loginrectangle2}>
-          <TextInput 
+      <Text style={styles.sifre}>Password</Text>
+      <View style={styles.loginrectangle2}>
+        <TextInput
           secureTextEntry={true}
-          onChangeText={(Pass) =>
-            setPass(Pass)
-          }
-      
-            
-          />
+          onChangeText={(Pass) => setPass(Pass)}
+          style={styles.inputText}
+        />
+      </View>
 
-        </View>
-        <TouchableOpacity style={styles.loginbut}   onPress={() => {
-        handlLogin(Email);
-          }}>
-          <View >
-            <Text style={styles.giris}>
-              Giriş Yap
-            </Text>
-          </View>
-    
-        </TouchableOpacity>
-        <TouchableOpacity   onPress={() => {
-          navigaetosignup();
-              }}>
-          <Text style={styles.register}>
-            Hesap Oluştur
-          </Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.loginbut}
+        onPress={() => {
+          handlLogin(Email);
+        }}
+      >
+        <Text style={styles.giris}>Login</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity   onPress={() => {
-          navigaetoinput();
-              }}>
-          <Text style={styles.register}>
-            input
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity   onPress={() => {
-          navigaetoMain();
-              }}>
-          <Text style={styles.register}>
-            MainPage
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity   onPress={() => {
-          navigaetoBatch();
-              }}>
-          <Text style={styles.register}>
-            Batch
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity   onPress={() => {
-          navigaetoApi();
-              }}>
-          <Text style={styles.register}>
-            Api
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity   onPress={() => {
-          navigaetoReco();
-              }}>
-          <Text style={styles.register}>
-            Reco
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity   onPress={() => {
-          navigaetoDash();
-              }}>
-          <Text style={styles.register}>
-            Dash
-          </Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigaetosignup()}>
+        <Text style={styles.register}>Register</Text>
+      </TouchableOpacity>
 
-
-      </View>      
+      <View style={styles.bottomBar}>
+        <Text style={styles.bottomBarText}>musiX</Text>
+      </View>
     </View>
-
   );
-
 }
 
-
-const styles=StyleSheet.create( {
-  border1:{
-    width:350,
-    height:450,
-    borderRadius:7,
-    borderWidth:5,
-    borderColor:"grey",
-    justifyContent:"center",
-    marginLeft:20,
-    marginTop:150,
-    alignItems:"center"
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#343434',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  rectangle:{
-    color:"grey",
-    borderWidth:1,
-    width:150,
-    height:50,
-    alignItems:"center",
-    backgroundColor:"grey",
-    marginBottom:80
-
+  rectangle: {
+    backgroundColor: '#1DB954',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '100%',
   },
-  textmusix:{
-    color:"white",
-    fontSize:40
+  textmusix: {
+    color: 'white',
+    fontSize: 28,
+    fontWeight: 'bold',
   },
-  logintext:{
-    fontSize:30,
-    marginTop:10
-
-
+  loginrectangle: {
+    width: '80%',
+    height: 50,
+    borderWidth: 1,
+    borderColor: 'grey',
+    marginBottom: 10,
+    borderRadius: 10,
+    paddingHorizontal: 10,
   },
-  loginrectangle:{
-    width:300,
-    height:50,
-    borderWidth:5,
-    marginBottom:10,
-    borderRadius:10,
-    borderColor:"grey"
-
-
+  loginrectangle2: {
+    width: '80%',
+    height: 50,
+    borderWidth: 1,
+    borderColor: 'grey',
+    borderRadius: 10,
+    paddingHorizontal: 10,
   },
-  loginrectangle2:{
-    width:300,
-    height:50,
-    borderWidth:5,
-    borderRadius:10,
-    borderColor:"grey"
-
+  email: {
+    color: 'white',
+    marginLeft: 10,
+    marginBottom: 5,
   },
-  email:{
-    color:"black",
-    marginRight:280,
-    margin:5
+  sifre: {
+    color: 'white',
+    marginLeft: 10,
+    marginBottom: 5,
   },
-  sifre:{
-    color:"black",
-    marginRight:280,
-    margin:5,
+  inputText: {
+    margin: 5,
+    fontSize: 16,
+    color: 'white',
   },
-  loginbut:{
-    width:300,
-    height:50,
-    backgroundColor:"blue",
-    alignItems:"center",
-    margin:10,
-    borderRadius:10,
+  loginbut: {
+    width: '80%',
+    height: 50,
+    backgroundColor: '#1DB954',
+    alignItems: 'center',
+    margin: 10,
+    borderRadius: 10,
   },
-  giris:{
-    color:"white",
-    margin:10
+  giris: {
+    color: 'white',
+    margin: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
-  register:{
-    color:"red"
-  }
-
-
-})
+  register: {
+    color: '#1DB954',
+    fontSize: 16,
+  },
+  bottomBar: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#282828',
+    padding: 10,
+    marginTop: 'auto',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bottomBarText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});
 
 export default Login;

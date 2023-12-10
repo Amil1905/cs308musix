@@ -20,7 +20,7 @@ const SongPage = (props, { navigation }) => {
         return;
       }
 
-      const apiUrl = `http://192.168.1.106:3000/api/users/${email}/songs`;
+      const apiUrl = `http://172.25.144.1:3000/api/users/${email}/songs`;
       const response = await fetch(apiUrl, {
         method: 'DELETE',
         headers: {

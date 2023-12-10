@@ -2,275 +2,90 @@
 // Main.js
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-
-const musicStyles = [
-  { name: 'Rock', color: '#e74c3c' },        // Red
-  { name: 'Pop', color: '#f39c12' },         // Orange
-  { name: 'Hip Hop', color: '#3498db' },     // Blue
-  { name: 'Jazz', color: '#2ecc71' },        // Green
-  { name: 'Classical', color: '#9b59b6' },   // Purple
-  { name: 'Electronic', color: '#e91e63' },  // Pink
-  { name: 'Country', color: '#795548' },     // Brown
-  { name: 'Blues', color: '#2980b9' },       // Dark Blue
-  { name: 'Reggae', color: '#4caf50' },      // Green
-  { name: 'Folk', color: '#8d6e63' },        // Brownish Grey
-];
-
-const musicData = [
-  {
-      "_id": "656f3c53d2f0326448bbb912",
-      "name": "Imagine",
-      "artist": [
-          "John Lennon"
-      ],
-      "album": "Imagine",
-      "genre": [],
-      "__v": 0
-  },
-  {
-      "_id": "656f3c53d2f0326448bbb916",
-      "name": "Like a Rolling Stone",
-      "artist": [
-          "Bob Dylan"
-      ],
-      "album": "Highway 61 Revisited",
-      "genre": [],
-      "__v": 0
-  },
-  {
-      "_id": "656f3cc4d2f0326448bbb925",
-      "name": "aa",
-      "artist": [
-          "aa"
-      ],
-      "album": "aa",
-      "releaseDate": "2001-02-01T00:00:00.000Z",
-      "genre": [
-          "Classical"
-      ],
-      "__v": 0
-  },
-  {
-      "_id": "657042a7c11ca5afdab8dd36",
-      "name": "Diamonds",
-      "artist": [
-          "Rihanna"
-      ],
-      "album": "Diamonds",
-      "releaseDate": "2001-01-01T00:00:00.000Z",
-      "genre": [
-          "Pop"
-      ],
-      "__v": 0
-  },
-  {
-      "_id": "657042d2c11ca5afdab8dd3c",
-      "name": "dumtektek",
-      "artist": [
-          "hadise"
-      ],
-      "album": "dumdum",
-      "releaseDate": "1990-01-01T00:00:00.000Z",
-      "genre": [
-          "Pop"
-      ],
-      "__v": 0
-  },
-  {
-      "_id": "6570776cc433756876105c80",
-      "name": "Stairway to Heaven",
-      "artist": [
-          "Led Zeppelin"
-      ],
-      "album": "Led Zeppelin IV",
-      "genre": [],
-      "__v": 0
-  },
-  {
-      "_id": "6570776cc433756876105c84",
-      "name": "Hotel California",
-      "artist": [
-          "Eagles"
-      ],
-      "album": "Hotel California",
-      "genre": [],
-      "__v": 0
-  },
-  {
-      "_id": "6570776cc433756876105c88",
-      "name": "Sweet Child o' Mine",
-      "artist": [
-          "Guns N' Roses"
-      ],
-      "album": "Appetite for Destruction",
-      "genre": [],
-      "__v": 0
-  },
-  {
-      "_id": "6570776cc433756876105c8c",
-      "name": "I Can't Get No Satisfaction",
-      "artist": [
-          "The Rolling Stones"
-      ],
-      "album": "Out of Our Heads",
-      "genre": [],
-      "__v": 0
-  },
-  {
-      "_id": "6570776cc433756876105c90",
-      "name": "Yesterday",
-      "artist": [
-          "The Beatles"
-      ],
-      "album": "Help!",
-      "genre": [],
-      "__v": 0
-  },
-  {
-      "_id": "6570776cc433756876105c94",
-      "name": "Purple Haze",
-      "artist": [
-          "Jimi Hendrix"
-      ],
-      "album": "Are You Experienced",
-      "genre": [],
-      "__v": 0
-  },
-  {
-      "_id": "6570776cc433756876105c98",
-      "name": "Smells Like Teen Spirit",
-      "artist": [
-          "Nirvana"
-      ],
-      "album": "Nevermind",
-      "genre": [],
-      "__v": 0
-  },
-  {
-      "_id": "6570a7733c7dce9fad247d40",
-      "name": "deneme1",
-      "artist": [
-          "hey"
-      ],
-      "album": "Nevermind",
-      "releaseDate": null,
-      "genre": [
-          "Classical"
-      ],
-      "__v": 0
-  },
-  {
-      "_id": "6570a7993c7dce9fad247d46",
-      "name": "deneme2",
-      "artist": [
-          "Jimi Hendrix"
-      ],
-      "album": "kıh",
-      "releaseDate": "2004-04-04T00:00:00.000Z",
-      "genre": [
-          "Classical"
-      ],
-      "__v": 0
-  },
-  {
-      "_id": "6570a7b53c7dce9fad247d4d",
-      "name": "deneme2",
-      "artist": [
-          "Nirvana"
-      ],
-      "album": "kı",
-      "releaseDate": "2004-04-04T00:00:00.000Z",
-      "genre": [
-          "Classical"
-      ],
-      "__v": 0
-  }
-]
+import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 
 const Main = (props) => {
   const [selectedGenre, setSelectedGenre] = useState(null);
   const email = props.route.params.item;
 
-  // Filter music tracks based on the selected genre
-  const filteredTracks = selectedGenre
-    ? musicData.filter((track) => track.genre.includes(selectedGenre))
-    : musicData;
-
   return (
     <View style={styles.container}>
+      {/* Background Image */}
+      <Image source={require('./hp.jpg')} style={[styles.backgroundImage, { marginTop: 35 }]} />
+
       {/* Header (Always displayed) */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Welcome to musiX</Text>
       </View>
 
-      {/* Navigation (Always displayed) */}
-      <View style={styles.navigation}>
-        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('Dashboard', {item:email})}>
+       {/* Navigation (Always displayed) */}
+       <View style={styles.navigation}>
+        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('Dashboard', { item: email })}>
           <Text style={styles.navButtonText}>Dashboard</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('Friends',{item:email})}>
-          <Text style={styles.navButtonText}>Friends</Text>
+        
+
+        
+
+        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('Recommendation', { item: email })}>
+          <Text style={styles.navButtonText}>Recommendations</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('Delete', {item:email})}>
-          <Text style={styles.navButtonText}>Delete</Text>
+        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('Showfriends', { item: email })}>
+          <Text style={styles.navButtonText}>My Friends</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('SongInput', {item:email})}>
-          <Text style={styles.navButtonText}>Add</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('BatchInput', {item:email})}>
-          <Text style={styles.navButtonText}>BatchInput</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('Unratedsongs', {item:email})}>
-          <Text style={styles.navButtonText}>Unratedsongs</Text>
-        </TouchableOpacity>
-
-
       </View>
 
       {/* Content */}
       <ScrollView style={styles.content}>
         <TouchableOpacity
           style={styles.recoButton}
-          onPress={() => props.navigation.navigate('Recommendation',{item:email})}
+          onPress={() => props.navigation.navigate('AllSongs', { item: email })}
         >
-          <Text style={styles.recoText}>Browse Recommendations</Text>
+          <Text style={styles.recoText}>All Songs</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('Unratedsongs', { item: email })}
+        >
+          <Text style={styles.recoText}>Unrated Songs</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('Friends', { item: email })}
+        >
+          <Text style={styles.recoText}>Add Friends</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.recoButton}
-          onPress={() => props.navigation.navigate('Showfriends',{item:email})}
+          onPress={() => props.navigation.navigate('SongInput', { item: email })}
         >
-          <Text style={styles.recoText}>Showfriends</Text>
+          <Text style={styles.recoText}>Add Song</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('BatchInput', { item: email })}
+        >
+          <Text style={styles.recoText}>Add Song with Batch Input</Text>
+        </TouchableOpacity>
 
-        <Text style={styles.contentTitle}>or Select Genre...</Text>
-         {/* Music Style Choices */}
-         <View style={styles.choices}>
-          {musicStyles.map((style, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[styles.styleButton, { backgroundColor: style.color }]}
-              onPress={() => {
-                console.log('Selected Genre:', style.name);
-                setSelectedGenre(style.name);
-              }}
-            >
-              <Text style={styles.styleButtonText}>{style.name}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        {/* Display Music Tracks */}
-        {filteredTracks.map((track) => (
-          <View key={track._id} style={styles.trackContainer}>
-            <Text style={styles.trackName}>{track.name}</Text>
-            <Text style={styles.trackArtist}>{track.artist.join(', ')}</Text>
-            <Text style={styles.trackAlbum}>{track.album}</Text>
-          </View>
-        ))}
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('Delete', { item: email })}
+        >
+          <Text style={styles.recoText}>Delete Song</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('DataExport', { item: email })}
+        >
+          <Text style={styles.recoText}>Data Export</Text>
+        </TouchableOpacity>
+        
       </ScrollView>
 
       {/* Bottom Bar (Always displayed) */}
@@ -283,6 +98,9 @@ const Main = (props) => {
           <Text style={styles.bottomBarButtonText}>Register</Text>
         </TouchableOpacity>
       </View>
+      < View style={styles.phrasecontainer}>
+          <Text style={styles.phrase}>Your Musix, Your Rules.</Text>
+      </View>
     </View>
   );
 };
@@ -290,22 +108,30 @@ const Main = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    position: 'relative',
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.25, // Adjust the opacity as needed
   },
   header: {
-    backgroundColor: '#1DB954',
+    backgroundColor: '#222222',
     padding: 20,
     alignItems: 'center',
   },
   headerText: {
-    color: 'white',
+    color: '#FFFFFF',
     fontSize: 28,
     fontWeight: 'bold',
   },
   navigation: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: '#282828',
+    backgroundColor: '#333333',
     padding: 10,
   },
   navButton: {
@@ -317,67 +143,64 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
-
   recoButton: {
-    backgroundColor: '#1DB954',
-    padding: 15,
-    margin: 5,
-    borderRadius: 5,
+    borderBottomWidth: 1, // Add a border at the bottom
+    borderBottomColor: '#000', // Set the border color
+    paddingVertical: 25, // Adjust padding as needed
+    paddingHorizontal: 20, // Adjust padding as needed
   },
-
   recoText: {
-    color: 'white',
+    color: '#333333',
     fontSize: 18,
     textAlign: 'center',
     fontWeight: 'bold',
   },
-  
-  contentTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  phrasecontainer: {
+    paddingVertical: 0, // Adjust padding as needed
+    paddingHorizontal: 20,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+  },
+  phrase: {
+    fontSize: 16,
     textAlign: 'center',
     fontStyle: 'italic',
     color: 'white',
-  },
-  choices: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    margin: 20,
-  },
-  styleButton: {
-    padding: 20,
-    borderRadius: 5,
-    margin: 5,
-    width: '45%',
-    alignItems: 'center',
-  },
-  styleButtonText: {
-    color: 'white',
-    fontSize: 18,
   },
   bottomBar: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#282828',
+    backgroundColor: '#222222',
     padding: 10,
   },
   bottomBarButton: {
-    backgroundColor: '#1DB954',
+    backgroundColor: '#D1D1D1',
     padding: 15,
     margin: 5,
     borderRadius: 5,
   },
   bottomBarButtonText: {
-    color: 'white',
+    color: '#333333',
     fontSize: 16,
+    fontWeight: 'bold',
   },
   bottomBarText: {
     color: 'white',
     marginHorizontal: 40,
     fontSize: 28,
     fontWeight: 'bold',
+  },
+  dropdownButton: {
+    backgroundColor: '#282828',
+    padding: 10,
+    marginVertical: 5,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#1DB954',
+  },
+  dropdownButtonText: {
+    color: '#1DB954',
   },
 });
 

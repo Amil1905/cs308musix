@@ -43,7 +43,7 @@ const Main = (props) => {
       formData.append('file', { uri: selectedFilePath, name: 'file' });
       formData.append('userEmail', userEmail);
   
-      const response = await fetch('http://192.168.1.106:3000/api/songs/batch', {
+      const response = await fetch('http://172.25.144.1:3000/api/songs/batch', {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',

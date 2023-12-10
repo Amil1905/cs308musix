@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  Image
 } from 'react-native';
 
 function Register(props) {
@@ -35,10 +36,14 @@ function Register(props) {
 
   return (
     <View style={styles.container}>
+
+      <Image source={require('./hp.jpg')} style={[styles.backgroundImage, { marginTop: 35 }]} />
+
       <View style={styles.rectangle}>
         <Text style={styles.textmusix}>Register to musiX</Text>
       </View>
-      <Text></Text>
+
+      
       <Text style={styles.email}>Email</Text>
       <View style={styles.inputContainer}>
         <TextInput
@@ -46,7 +51,6 @@ function Register(props) {
           style={styles.input}
         />
       </View>
-      <Text></Text>
       <Text style={styles.sifre}>Password</Text>
       <View style={styles.inputContainer}>
         <TextInput
@@ -55,8 +59,6 @@ function Register(props) {
           style={styles.input}
         />
       </View>
-      <Text></Text>
-      <Text></Text>
       <TouchableOpacity
         style={styles.loginbut}
         onPress={() => {
@@ -66,7 +68,7 @@ function Register(props) {
         <Text style={styles.giris}>Register</Text>
       </TouchableOpacity>
       <View style={styles.bottomBar}>
-        <Text style={styles.bottomBarText}>musiX</Text>
+        <Text style={styles.bottomBarText}>Your Musix, Your Rules.</Text>
       </View>
     </View>
   );
@@ -75,54 +77,62 @@ function Register(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#343434',
+    backgroundColor: '#F5F5F5',
     justifyContent: 'center',
     alignItems: 'center',
   },
   rectangle: {
-    backgroundColor: '#1DB954',
+    backgroundColor: '#222222',
     padding: 20,
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 100,
     width: '100%',
   },
   textmusix: {
-    color: 'white',
+    color: '#FFFFFF',
     fontSize: 28,
     fontWeight: 'bold',
   },
-  logintext: {
-    color: 'white',
-    fontSize: 30,
-    marginTop: 10,
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.25, // Adjust the opacity as needed
   },
   inputContainer: {
     width: '80%',
     height: 50,
-    borderWidth: 1,
-    borderColor: 'grey',
-    marginBottom: 10,
+    borderWidth: 1.5,
+    borderColor: '#333333',
+    marginBottom: 30,
     borderRadius: 10,
     paddingHorizontal: 10,
   },
-  input: {
-    flex: 1,
-    color: 'white',
-  },
   email: {
-    color: 'white',
+    color: '#333333',
     marginLeft: 10,
     marginBottom: 5,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   sifre: {
-    color: 'white',
+    color: '#333333',
     marginLeft: 10,
     marginBottom: 5,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  inputText: {
+    margin: 5,
+    fontSize: 16,
+    color: '#333333',
   },
   loginbut: {
     width: '80%',
     height: 50,
-    backgroundColor: '#1DB954',
+    backgroundColor: '#333333',
     alignItems: 'center',
     margin: 10,
     borderRadius: 10,
@@ -131,22 +141,28 @@ const styles = StyleSheet.create({
     color: 'white',
     margin: 10,
     fontSize: 16,
-    fontWeight:'bold',
+    fontWeight: 'bold',
+  },
+  register: {
+    color: '#333333',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   bottomBar: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#282828',
-    padding: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    paddingVertical: 0, // Adjust padding as needed
+    paddingHorizontal: 20,
     marginTop: 'auto',
   },
   bottomBarText: {
-    color: 'white',
     fontSize: 16,
-    fontWeight: 'bold',
     textAlign: 'center',
+    fontStyle: 'italic',
+    color: 'white',
   },
 });
 

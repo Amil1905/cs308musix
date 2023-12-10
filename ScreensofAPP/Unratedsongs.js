@@ -1,46 +1,51 @@
-/* eslint-disable no-undef */
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput, Button } from 'react-native';
 
 const Unratedsongs = (props) => {
   const [unratedSongs, setUnratedSongs] = useState([]);
-  const [newRating, setNewRating] = useState('');
+  const [ratings, setRatings] = useState({});
+
+  const fetchUnratedSongs = async () => {
+    try {
+      const userEmail = props.route.params.item;
+      const response = await fetch(`http://172.25.144.1:3000/users/${userEmail}/unratedSongs`);
+      const data = await response.json();
+      setUnratedSongs(data);
+      const initialRatings = {};
+      data.forEach((song) => {
+        initialRatings[song._id] = '';
+      });
+      setRatings(initialRatings);
+    } catch (error) {
+      console.error('Error fetching unrated songs:', error);
+    }
+  };
 
   useEffect(() => {
-    // Fetch unrated songs from the backend API
-    const fetchUnratedSongs = async () => {
-      try {
-        const userEmail = props.route.params.item; // Replace with the actual user email or fetch it from your authentication system
-        const response = await fetch(`http://192.168.1.106:3000/users/${userEmail}/unratedSongs`);
-        const data = await response.json();
-        setUnratedSongs(data);
-      } catch (error) {
-        console.error('Error fetching unrated songs:', error);
-      }
-    };
-
     fetchUnratedSongs();
   }, []);
 
   const updateRating = async (songId) => {
     try {
-        const userEmail = props.route.params.item;// Replace with the actual user email or fetch it from your authentication system
-      const response = await fetch(`http://192.168.1.106:3000/api/users/updateSongRatings/${userEmail}`, {
+      const userEmail = props.route.params.item;
+      const response = await fetch(`http://172.25.144.1:3000/user/${userEmail}/song/${songId}/rate`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          newRating: parseInt(newRating), // Convert the newRating to an integer
+          newRating: parseInt(ratings[songId]),
         }),
       });
 
       if (response.ok) {
-        // If the update is successful, refetch the unrated songs
+        // Call the function here instead of using fetchUnratedSongs()
         fetchUnratedSongs();
-        // Optionally, reset the newRating state
-        setNewRating('');
+        setRatings((prevRatings) => ({
+          ...prevRatings,
+          [songId]: '',
+        }));
       } else {
         console.error('Error updating rating:', response.status);
       }
@@ -69,8 +74,13 @@ const Unratedsongs = (props) => {
                 style={styles.ratingInput}
                 placeholder="Enter rating (0-5)"
                 keyboardType="numeric"
-                value={newRating}
-                onChangeText={(text) => setNewRating(text)}
+                value={ratings[song._id]}
+                onChangeText={(text) =>
+                  setRatings((prevRatings) => ({
+                    ...prevRatings,
+                    [song._id]: text,
+                  }))
+                }
               />
               <Button title="Rate" onPress={() => updateRating(song._id)} />
             </View>
@@ -80,6 +90,7 @@ const Unratedsongs = (props) => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

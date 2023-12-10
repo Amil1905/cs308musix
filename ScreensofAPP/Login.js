@@ -8,7 +8,7 @@
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { TextInput, Text, TouchableOpacity, StyleSheet, View, Alert } from 'react-native';
+import { TextInput, Text, TouchableOpacity, StyleSheet, View, Alert, Image } from 'react-native';
 import auth from '@react-native-firebase/auth';
 
 function Login({ navigation }) {
@@ -55,7 +55,7 @@ function Login({ navigation }) {
 
   const sendEmailToApi = async (email) => {
     try {
-      const apiUrl = 'http://192.168.1.106:3000/api/users'; // Replace with your actual API endpoint
+      const apiUrl = 'http://172.25.144.1:3000/api/users'; // Replace with your actual API endpoint
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -79,6 +79,7 @@ function Login({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Image source={require('./hp.jpg')} style={[styles.backgroundImage, { marginTop: 35 }]} />
       <View style={styles.rectangle}>
         <Text style={styles.textmusix}>Login to musiX</Text>
       </View>
@@ -114,7 +115,7 @@ function Login({ navigation }) {
       </TouchableOpacity>
 
       <View style={styles.bottomBar}>
-        <Text style={styles.bottomBarText}>musiX</Text>
+        <Text style={styles.bottomBarText}>Your Musix, Your Rules.</Text>
       </View>
     </View>
   );
@@ -123,58 +124,71 @@ function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#343434',
+    backgroundColor: '#F5F5F5',
     justifyContent: 'center',
     alignItems: 'center',
   },
   rectangle: {
-    backgroundColor: '#1DB954',
+    backgroundColor: '#222222',
     padding: 20,
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 100,
     width: '100%',
   },
   textmusix: {
-    color: 'white',
+    color: '#FFFFFF',
     fontSize: 28,
     fontWeight: 'bold',
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.25, // Adjust the opacity as needed
   },
   loginrectangle: {
     width: '80%',
     height: 50,
-    borderWidth: 1,
-    borderColor: 'grey',
-    marginBottom: 10,
+    borderWidth: 1.5,
+    borderColor: '#333333',
+    marginBottom: 30,
     borderRadius: 10,
     paddingHorizontal: 10,
   },
   loginrectangle2: {
     width: '80%',
     height: 50,
-    borderWidth: 1,
-    borderColor: 'grey',
+    borderWidth: 1.5,
+    borderColor: '#333333',
+    marginBottom: 30,
     borderRadius: 10,
     paddingHorizontal: 10,
   },
   email: {
-    color: 'white',
+    color: '#333333',
     marginLeft: 10,
     marginBottom: 5,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   sifre: {
-    color: 'white',
+    color: '#333333',
     marginLeft: 10,
     marginBottom: 5,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   inputText: {
     margin: 5,
     fontSize: 16,
-    color: 'white',
+    color: '#333333',
   },
   loginbut: {
     width: '80%',
     height: 50,
-    backgroundColor: '#1DB954',
+    backgroundColor: '#333333',
     alignItems: 'center',
     margin: 10,
     borderRadius: 10,
@@ -186,25 +200,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   register: {
-    color: '#1DB954',
+    color: '#333333',
     fontSize: 16,
+    fontWeight: 'bold',
   },
   bottomBar: {
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#282828',
-    padding: 10,
-    marginTop: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    paddingVertical: 0, // Adjust padding as needed
+    paddingHorizontal: 20,
+    marginTop: 'auto',
   },
   bottomBarText: {
-    color: 'white',
     fontSize: 16,
-    fontWeight: 'bold',
     textAlign: 'center',
+    fontStyle: 'italic',
+    color: 'white',
   },
 });
 

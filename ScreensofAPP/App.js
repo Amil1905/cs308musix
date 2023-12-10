@@ -15,6 +15,8 @@ import SongPage from '../ScreensofAPP/Delete';
 import MusicFriendsPage from '../ScreensofAPP/Friends';
 import Unratedsongs from '../ScreensofAPP/Unratedsongs';
 import FriendsScreen from '../ScreensofAPP/Showfriends';
+import ExportSongsPage from '../ScreensofAPP/DataExport';
+import AllSongsPage from '../ScreensofAPP/AllSongs';
 
 
 
@@ -47,6 +49,11 @@ function App() {
                 />
                                   <Stack.Screen name="Showfriends" component={FriendsScreen}
                 />    
+                              
+                                  <Stack.Screen name="DataExport" component={ExportSongsPage}
+                /> 
+                                                 <Stack.Screen name="AllSongs" component={AllSongsPage}
+                />      
             </Stack.Navigator>
 
         </NavigationContainer>

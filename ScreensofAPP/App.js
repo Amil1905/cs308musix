@@ -17,6 +17,9 @@ import Unratedsongs from '../ScreensofAPP/Unratedsongs';
 import FriendsScreen from '../ScreensofAPP/Showfriends';
 import ExportSongsPage from '../ScreensofAPP/DataExport';
 import AllSongsPage from '../ScreensofAPP/AllSongs';
+import StatisticsScreen from '../ScreensofAPP/Statistics';
+import TopArtists from '../ScreensofAPP/TopArtists';
+import Graphs from '../ScreensofAPP/Graph';
 
 
 
@@ -53,7 +56,13 @@ function App() {
                                   <Stack.Screen name="DataExport" component={ExportSongsPage}
                 /> 
                                                  <Stack.Screen name="AllSongs" component={AllSongsPage}
+                />
+                                                                 <Stack.Screen name="Statistics" component={StatisticsScreen}
                 />      
+                                                                                 <Stack.Screen name="TopArtists" component={TopArtists}
+                /> 
+                                                                                                 <Stack.Screen name="Graphs" component={Graphs}
+                />       
             </Stack.Navigator>
 
         </NavigationContainer>

@@ -9,7 +9,7 @@ const Unratedsongs = (props) => {
   const fetchUnratedSongs = async () => {
     try {
       const userEmail = props.route.params.item;
-      const response = await fetch(`http://172.25.144.1:3000/users/${userEmail}/unratedSongs`);
+      const response = await fetch(`http://192.168.1.103:3000/users/${userEmail}/unratedSongs`);
       const data = await response.json();
       setUnratedSongs(data);
       const initialRatings = {};
@@ -29,7 +29,7 @@ const Unratedsongs = (props) => {
   const updateRating = async (songId) => {
     try {
       const userEmail = props.route.params.item;
-      const response = await fetch(`http://172.25.144.1:3000/user/${userEmail}/song/${songId}/rate`, {
+      const response = await fetch(`http://192.168.1.103:3000/user/${userEmail}/song/${songId}/rate`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -56,35 +56,46 @@ const Unratedsongs = (props) => {
 
   return (
     <View style={styles.container}>
+      <Image source={require('./hp.jpg')} style={[styles.backgroundImage, { marginTop: 35 }]} />
+
       <View style={styles.header}>
         <Text style={styles.headerText}>Unrated Songs</Text>
       </View>
 
       <ScrollView style={styles.songList}>
+
         {unratedSongs.map((song) => (
-          <View key={song._id} style={styles.songCard}>
-            <Image source={{ uri: song.imageURL }} style={styles.songImage} />
-            <View style={styles.songDetails}>
-              <Text style={styles.songTitle}>{song.name}</Text>
-              <Text style={styles.songArtist}>{song.artist}</Text>
-              <Text style={styles.songAlbum}>{song.album}</Text>
-            </View>
-            <View style={styles.ratingContainer}>
-              <TextInput
-                style={styles.ratingInput}
-                placeholder="Enter rating (0-5)"
-                keyboardType="numeric"
-                value={ratings[song._id]}
-                onChangeText={(text) =>
-                  setRatings((prevRatings) => ({
-                    ...prevRatings,
-                    [song._id]: text,
-                  }))
-                }
-              />
-              <Button title="Rate" onPress={() => updateRating(song._id)} />
-            </View>
-          </View>
+                  <TouchableOpacity key={song._id} style={styles.songCard}>
+                  <View style={styles.songDetails}>
+                    <Text style={styles.songTitle}>Skyfall</Text>
+                    <Text style={styles.songArtist}>Artist: Adele</Text>
+                    <Text style={styles.songAlbum}>Album: Skyfall</Text>
+    
+                    <View style={styles.ratingContainer}>
+                  <TextInput
+                    style={styles.ratingInput}
+                    placeholder="Enter rating (0-5)"
+                    keyboardType="numeric"
+                    value={ratings[song._id]}
+                    onChangeText={(text) =>
+                      setRatings((prevRatings) => ({
+                        ...prevRatings,
+                        [song._id]: text,
+                      }))
+                    }
+                  />
+    
+                    <TouchableOpacity style={styles.ratingbutton} onPress={() => updateRating(song._id)}>
+                      <Text style={styles.listenButtonText}>Rate</Text>
+                    </TouchableOpacity>
+                      
+                    </View>
+                  </View>
+                  
+                  <TouchableOpacity style={styles.listenButton}>
+                    <Text style={styles.listenButtonText}>Listen</Text>
+                  </TouchableOpacity>
+            </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
@@ -95,64 +106,104 @@ const Unratedsongs = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#343434',
+    backgroundColor: '#F5F5F5',
   },
   header: {
-    backgroundColor: 'green',
+    backgroundColor: '#222222', 
     padding: 20,
     alignItems: 'center',
+    width: '100%',
   },
   headerText: {
-    color: 'white',
+    color: '#FFFFFF',
     fontSize: 24,
+    fontWeight: 'bold',
   },
-  songList: {
-    // Add styles for the song list if needed
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.25, 
   },
   songCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginTop: 8,
+    marginLeft: 16,
+    marginRight: 16,
+    marginBottom: 8,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#333333',
     borderRadius: 8,
     padding: 10,
-  },
-  songImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 10,
   },
   songDetails: {
     flex: 1,
   },
   songTitle: {
     fontSize: 16,
+    color: '#333333',
     fontWeight: 'bold',
-    color: '#fff',
+
   },
   songArtist: {
     fontSize: 14,
-    color: '#fff',
+    color: '#333333',
   },
   songAlbum: {
-    fontSize: 12,
+    fontSize: 14,
+    color: '#333333',
+  },
+  listenButton: {
+    backgroundColor: '#666666',
+    padding: 10,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  listenButtonText: {
     color: '#fff',
+  },
+  bottomBar: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    paddingVertical: 0, // Adjust padding as needed
+    paddingHorizontal: 20,
+    marginTop: 'auto',
+  },
+  bottomBarText: {
+    fontSize: 16,
+    textAlign: 'center',
+    fontStyle: 'italic',
+    color: 'white',
   },
   ratingContainer: {
     flexDirection: 'column',
-    alignItems: 'center',
+    marginTop: 16,
   },
   ratingInput: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    width: 80,
+    width: 130,
     marginBottom: 8,
+    borderRadius: 5,
     textAlign: 'center',
-    color: '#fff',
+    color: '#333333',
   },
+  ratingbutton: {
+    backgroundColor: '#666666',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 130,
+  }
 });
 
 export default Unratedsongs;

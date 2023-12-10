@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { TextInput, Text, TouchableOpacity, StyleSheet, View, Alert } from 'react-native';
+import { TextInput, Text, TouchableOpacity, StyleSheet, View, Alert, Image } from 'react-native';
 
 function SongInput(props) {
   const [songName, setSongName] = useState('');
@@ -21,7 +21,7 @@ function SongInput(props) {
       const email= props.route.params.item
 
       // Step 1: Add the song
-      const responseSong = await fetch('http://172.25.144.1:3000/api/songs', {
+      const responseSong = await fetch('http://192.168.1.103:3000/api/songs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ function SongInput(props) {
       console.log('Song added successfully:', songData);
 
       // Step 2: Add the song rating to the user's songsAdded array
-      const responseRating = await fetch(`http://172.25.144.1:3000/users/${email}/ratings`, {
+      const responseRating = await fetch(`http://192.168.1.103:3000/users/${email}/ratings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,9 +74,13 @@ function SongInput(props) {
 
   return (
     <View style={styles.container}>
+      <Image source={require('./hp.jpg')} style={[styles.backgroundImage, { marginTop: 35 }]} />
+
       <View style={styles.header}>
-        <Text style={styles.headerText}>musiX</Text>
+        <Text style={styles.headerText}>Add Song</Text>
       </View>
+
+      <Text style={styles.text}></Text>
 
       <View style={styles.row}>
         <View style={styles.column}>
@@ -84,7 +88,7 @@ function SongInput(props) {
           <TextInput
             style={styles.input}
             placeholder="Enter song name"
-            placeholderTextColor="#F0F0F0"
+            placeholderTextColor="#333333"
             value={songName}
             onChangeText={(text) => setSongName(text)}
           />
@@ -97,7 +101,7 @@ function SongInput(props) {
               key={index}
               style={styles.input}
               placeholder={`Enter artist ${index + 1}${index > 0 ? ' (optional)' : ''}`}
-              placeholderTextColor="#F0F0F0"
+              placeholderTextColor="#333333"
               value={artist}
               onChangeText={(text) => setArtists([...artists.slice(0, index), text, ...artists.slice(index + 1)])}
             />
@@ -111,7 +115,7 @@ function SongInput(props) {
           <TextInput
             style={styles.input}
             placeholder="Enter album name"
-            placeholderTextColor="#F0F0F0"
+            placeholderTextColor="#333333"
             value={albumName}
             onChangeText={(text) => setAlbumName(text)}
           />
@@ -124,7 +128,7 @@ function SongInput(props) {
               key={index}
               style={styles.input}
               placeholder={`Enter genre ${index + 1}${index > 0 ? ' (optional)' : ''}`}
-              placeholderTextColor="#F0F0F0"
+              placeholderTextColor="#333333"
               value={genre}
               onChangeText={(text) => setGenres([...genres.slice(0, index), text, ...genres.slice(index + 1)])}
             />
@@ -138,7 +142,7 @@ function SongInput(props) {
           <TextInput
             style={styles.input}
             placeholder="YYYY-MM-DD"
-            placeholderTextColor="#F0F0F0"
+            placeholderTextColor="#333333"
             value={releaseDate}
             onChangeText={(text) => setReleaseDate(text)}
           />
@@ -149,7 +153,7 @@ function SongInput(props) {
           <TextInput
             style={styles.input}
             placeholder="Enter rating"
-            placeholderTextColor="#F0F0F0"
+            placeholderTextColor="#333333"
             value={rating}
             onChangeText={(text) => setRating(text)}
           />
@@ -159,6 +163,10 @@ function SongInput(props) {
       <TouchableOpacity style={styles.button} onPress={handleAddSong}>
         <Text style={styles.buttonText}>Add Song</Text>
       </TouchableOpacity>
+
+      <View style={styles.bottomBar}>
+        <Text style={styles.bottomBarText}>Your Musix, Your Rules.</Text>
+      </View>
     </View>
   );
 }
@@ -166,25 +174,44 @@ function SongInput(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#343434',
-    padding: 20,
+    backgroundColor: '#F5F5F5',
+    justifyContent: 'center',
     alignItems: 'center',
   },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.15, // Adjust the opacity as needed
+  },
   header: {
-    backgroundColor: '#1DB954',
+    backgroundColor: '#222222',
     padding: 20,
     alignItems: 'center',
-    marginBottom: 20,
+    position: 'absolute',
     width: '100%',
+    top: 0,
   },
   headerText: {
     color: 'white',
     fontSize: 24,
     fontWeight: 'bold',
   },
+  text: {
+    color: '#333333',
+    marginTop: 20,
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    borderBottomWidth: 2, 
+    paddingTop: 80,
+  },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginLeft: 10,
     marginBottom: 15,
     width: '100%',
   },
@@ -194,25 +221,25 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    color: '#1DB954',
+    color: '#333333',
     marginBottom: 5,
+    fontWeight: 'bold',
   },
   input: {
     height: 40,
-    backgroundColor: '#282828',
-    borderColor: '#fff',
+    borderColor: '#333333',
     borderWidth: 2,
     paddingLeft: 10,
     paddingRight: 10,
-    color: '#F0F0F0',
+    color: '#333333',
     fontSize: 16,
     marginBottom: 10,
   },
   button: {
-    width: '100%',
+    width: '95%',
     height: 40,
     borderRadius: 5,
-    backgroundColor: '#1DB954',
+    backgroundColor: '#333333',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -220,6 +247,22 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  bottomBar: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    paddingVertical: 0, // Adjust padding as needed
+    paddingHorizontal: 20,
+    marginTop: 'auto',
+  },
+  bottomBarText: {
+    fontSize: 16,
+    textAlign: 'center',
+    fontStyle: 'italic',
+    color: 'white',
   },
 });
 

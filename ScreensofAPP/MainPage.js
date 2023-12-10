@@ -20,8 +20,8 @@ const Main = (props) => {
 
        {/* Navigation (Always displayed) */}
        <View style={styles.navigation}>
-        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('Dashboard', { item: email })}>
-          <Text style={styles.navButtonText}>Dashboard</Text>
+        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('DataExport', { item: email })}>
+          <Text style={styles.navButtonText}>DataExport</Text>
         </TouchableOpacity>
 
         
@@ -81,10 +81,23 @@ const Main = (props) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.recoButton}
-          onPress={() => props.navigation.navigate('DataExport', { item: email })}
+          onPress={() => props.navigation.navigate('Statistics', { item: email })}
         >
-          <Text style={styles.recoText}>Data Export</Text>
+          <Text style={styles.recoText}>Top Albums</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('TopArtists', { item: email })}
+        >
+          <Text style={styles.recoText}>TopArtists</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('Graphs', { item: email })}
+        >
+          <Text style={styles.recoText}>Songs in range of a specific dates</Text>
+        </TouchableOpacity>
+        
         
       </ScrollView>
 

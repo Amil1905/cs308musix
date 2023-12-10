@@ -1,13 +1,17 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, FlatList, Button } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, StyleSheet, TextInput, Button, FlatList} from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
+import Share from 'react-native-share';
+import { captureRef } from 'react-native-view-shot';
 
 const TopArtists = (props) => {
   const [topArtists, setTopArtists] = useState([]);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [showGraph, setShowGraph] = useState(false);
+
+  const chartContainerRef = useRef(null);
 
   const fetchTopArtists = async () => {
     const userEmail = props.route.params.item;
@@ -36,12 +40,29 @@ const TopArtists = (props) => {
   );
 
   const renderGraph = () => (
-    <BarChart
-      data={topArtists.map((item) => ({ value: item.count, label: item.artist }))}
-      barWidth={22}
-      // Other props for customization
-    />
+    <View ref={chartContainerRef} collapsable={false}>
+      <BarChart
+        data={topArtists.map((item) => ({ value: item.count, label: item.artist }))}
+        barWidth={22}
+        // Other props for customization
+      />
+    </View>
   );
+
+  const shareOnFacebook = async () => {
+    try {
+      // Capture the chart container as an image
+      const uri = await captureRef(chartContainerRef, { format: 'png', quality: 0.8 });
+
+      // Share the captured image
+      await Share.open({
+        url: uri,
+        message: 'Check out my top artists statistics!',
+      });
+    } catch (error) {
+      console.error('Error sharing on Facebook:', error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -64,7 +85,12 @@ const TopArtists = (props) => {
 
       <Button title={showGraph ? 'Show List' : 'Show Graph'} onPress={fetchTopArtists} />
 
-      {showGraph ? renderGraph() : (
+      {showGraph ? (
+        <View>
+          {renderGraph()}
+          <Button title="Share on Facebook" onPress={shareOnFacebook} />
+        </View>
+      ) : (
         <FlatList
           data={topArtists}
           keyExtractor={(item, index) => index.toString()}

@@ -67,9 +67,9 @@ const Unratedsongs = (props) => {
         {unratedSongs.map((song) => (
                   <TouchableOpacity key={song._id} style={styles.songCard}>
                   <View style={styles.songDetails}>
-                    <Text style={styles.songTitle}>Skyfall</Text>
-                    <Text style={styles.songArtist}>Artist: Adele</Text>
-                    <Text style={styles.songAlbum}>Album: Skyfall</Text>
+                  <Text style={styles.songTitle}>{song.name}</Text>
+                    <Text style={styles.songArtist}>Artist: {song.artist}</Text>
+                    <Text style={styles.songAlbum}>Album: {song.album}</Text>
     
                     <View style={styles.ratingContainer}>
                   <TextInput

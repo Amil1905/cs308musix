@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, FlatList,Button } from 'react-native';
+import { View, Text, StyleSheet, TextInput, FlatList,Button, TouchableOpacity, Image } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
 const Graphs = (props) => {
     const [performers, setPerformers] = useState('');
@@ -46,15 +46,23 @@ const Graphs = (props) => {
   
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Performer Song Counts</Text>
+        <Image source={require('./hp.jpg')} style={[styles.backgroundImage, { marginTop: 35 }]} />
+
+        {/* Header (Always displayed) */}
+        <View style={styles.header}>
+            <Text style={styles.headerText}>Performer Song Counts</Text>
+        </View>
+
+        <Text style={styles.text}>You can explore performer song counts:</Text>
   
-        <View style={styles.inputContainer}>
+        
           <TextInput
-            style={styles.input}
+            style={styles.performerinput}
             placeholder="Performers (comma-separated)"
             value={performers}
             onChangeText={setPerformers}
           />
+        <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             placeholder="Start Date (YYYY-MM-DD)"
@@ -69,46 +77,145 @@ const Graphs = (props) => {
           />
         </View>
   
-        <Button title="Show Graph" onPress={fetchData} />
+
+        <TouchableOpacity style={styles.button} onPress={fetchData}>
+            <Text style={styles.buttonText}>Show Graph</Text>
+        </TouchableOpacity>
+
   
         {error ? (
-          <Text style={styles.errorText}>{error}</Text>
+        <Text style={styles.errorText}>{error}</Text>
         ) : graphData ? (
-          <BarChart
+        <View style={styles.graphContainer}>
+            <BarChart
             data={graphData.map((item) => ({ value: item.count, label: item.performer }))}
-            barWidth={22}
+            barWidth={30} // Increase the bar width for a bigger chart
+            style={{ borderRadius: 10, backgroundColor: 'white' }} // Set background color to white
+            chartConfig={{
+                backgroundGradientFrom: 'white',
+                backgroundGradientTo: 'white',
+                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Set bar color to black
+                labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Set label color to black
+            }}
             // Other props for customization
-          />
+            />
+        </View>
         ) : null}
+        <View style={styles.bottomBar}>
+        <Text style={styles.bottomBarText}>Your Musix, Your Rules.</Text>
+      </View>
+
       </View>
     );
   };
   
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
+        flex: 1,
+        backgroundColor: '#F5F5F5',
+        position: 'relative',
     },
-    title: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginBottom: 10,
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover',
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        opacity: 0.25, // Adjust the opacity as needed
+      },
+    header: {
+        backgroundColor: '#222222',
+        padding: 20,
+        alignItems: 'center',
+        position: 'absolute',
+        width: '100%',
+        top: 0,
+      },
+    headerText: {
+        color: '#FFFFFF',
+        fontSize: 28,
+        fontWeight: 'bold',
+      },
+    text: {
+        color: '#333333',
+        marginTop: 20,
+        fontSize: 22,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        borderBottomWidth: 2, 
+        paddingTop: 80,
     },
-    inputContainer: {
-      marginBottom: 10,
-    },
-    input: {
-      height: 40,
-      borderColor: 'gray',
-      borderWidth: 1,
-      marginBottom: 10,
-      paddingLeft: 10,
-    },
-    errorText: {
-      color: 'red',
-      marginTop: 10,
-    },
+  inputContainer: {
+    flexDirection: 'row',
+    marginTop: 15,
+    marginLeft: 10,
+    marginBottom: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  input: {
+    flex: 1,
+    height: 50,
+    paddingLeft: 10,
+    marginRight: 10,
+    borderWidth: 1.5,
+    borderColor: '#333333',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+  },
+  performerinput: {
+    width: '95%',
+    height: 50,
+    borderWidth: 1.5,
+    borderColor: '#333333',
+    marginTop: 45,
+    borderRadius: 10,
+    marginLeft: 10,
+    paddingHorizontal: 10,
+  },
+  button: {
+    width: '95%',
+    height: 40,
+    borderRadius: 5,
+    backgroundColor: '#333333',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 10,
+    marginBottom:20,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  listItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderColor: 'lightgray',
+  },
+  graphContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 20, // Add margin for spacing
+  },
+  bottomBar: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    paddingVertical: 0, // Adjust padding as needed
+    paddingHorizontal: 20,
+    marginTop: 'auto',
+  },
+  bottomBarText: {
+    fontSize: 16,
+    textAlign: 'center',
+    fontStyle: 'italic',
+    color: 'white',
+  },
   });
 
 export default Graphs;

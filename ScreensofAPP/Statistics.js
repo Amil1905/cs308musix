@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, FlatList, Button } from 'react-native';
+import { View, Text, StyleSheet, TextInput, FlatList, Button, TouchableOpacity, Image } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
 
 const StatisticsScreen = (props) => {
@@ -45,7 +45,14 @@ const StatisticsScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Top Albums</Text>
+      <Image source={require('./hp.jpg')} style={[styles.backgroundImage, { marginTop: 35 }]} />
+
+        {/* Header (Always displayed) */}
+        <View style={styles.header}>
+            <Text style={styles.headerText}>Top Albums</Text>
+        </View>
+
+        <Text style={styles.text}>You can explore top album statistics:</Text>
 
       <View style={styles.inputContainer}>
         <TextInput
@@ -62,7 +69,9 @@ const StatisticsScreen = (props) => {
         />
       </View>
 
-      <Button title={showGraph ? 'Show List' : 'Show Graph'} onPress={fetchChartData} />
+      <TouchableOpacity style={styles.button} onPress={fetchChartData}>
+        <Text style={styles.buttonText}>{showGraph ? 'Show List' : 'Show Graph'}</Text>
+      </TouchableOpacity>
 
       {showGraph ? renderGraph() : (
         <FlatList
@@ -71,39 +80,110 @@ const StatisticsScreen = (props) => {
           renderItem={renderListItem}
         />
       )}
+
+        <View style={styles.bottomBar}>
+            <Text style={styles.bottomBarText}>Your Musix, Your Rules.</Text>
+        </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+    container: {
+        flex: 1,
+        backgroundColor: '#F5F5F5',
+        position: 'relative',
+    },
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover',
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        opacity: 0.25, // Adjust the opacity as needed
+      },
+    header: {
+        backgroundColor: '#222222',
+        padding: 20,
+        alignItems: 'center',
+        position: 'absolute',
+        width: '100%',
+        top: 0,
+      },
+    headerText: {
+        color: '#FFFFFF',
+        fontSize: 28,
+        fontWeight: 'bold',
+      },
+    text: {
+        color: '#333333',
+        marginTop: 20,
+        fontSize: 22,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        borderBottomWidth: 2, 
+        paddingTop: 80,
+    },
+  inputContainer: {
+    flexDirection: 'row',
+    marginTop: 30,
+    marginLeft: 10,
+    marginBottom: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  inputContainer: {
-    flexDirection: 'row', // Display inputs in a row
-    justifyContent: 'space-between', // Add space between inputs
-    marginBottom: 10,
-  },
   input: {
-    flex: 1, // Take up available space
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
+    flex: 1,
+    height: 50,
     paddingLeft: 10,
-    marginRight: 10, // Add some margin between inputs
+    marginRight: 10,
+    borderWidth: 1.5,
+    borderColor: '#333333',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+  },
+  button: {
+    width: '95%',
+    height: 40,
+    borderRadius: 5,
+    backgroundColor: '#333333',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 10,
+    marginBottom:20,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   listItem: {
     padding: 10,
     borderBottomWidth: 1,
     borderColor: 'lightgray',
   },
+  graphContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 20, // Add margin for spacing
+  },
+  bottomBar: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    paddingVertical: 0, // Adjust padding as needed
+    paddingHorizontal: 20,
+    marginTop: 'auto',
+  },
+  bottomBarText: {
+    fontSize: 16,
+    textAlign: 'center',
+    fontStyle: 'italic',
+    color: 'white',
+  },
 });
-
 export default StatisticsScreen;

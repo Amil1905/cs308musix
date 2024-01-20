@@ -17,7 +17,7 @@ const MusicFriendsPage = (props) => {
   const fetchUsers = async () => {
     try {
       // Make a request to your API endpoint to get all users
-      const response = await fetch('http://192.168.1.103:3000/api/users');
+      const response = await fetch('http://192.168.1.110:3000/api/users');
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -29,7 +29,7 @@ const MusicFriendsPage = (props) => {
     // Implement logic to add friend using the provided friendEmail
     try {
       // Make a request to your API endpoint to add a friend
-      const response = await fetch('http://192.168.1.103:3000/api/users/addfriends', {
+      const response = await fetch('http://192.168.1.110:3000/api/users/addfriends', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -7,7 +7,7 @@ const AllSongsPage = () => {
   useEffect(() => {
     const fetchAllSongs = async () => {
       try {
-        const response = await fetch('http://192.168.1.103:3000/api/songs');
+        const response = await fetch('http://192.168.1.110:3000/api/songs');
         const data = await response.json();
         setSongs(data);
       } catch (error) {

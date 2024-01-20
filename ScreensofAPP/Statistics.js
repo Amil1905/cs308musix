@@ -14,7 +14,7 @@ const StatisticsScreen = (props) => {
 
     try {
       const response = await fetch(
-        `http://192.168.1.103:3000/api/user/${userEmail}/top-albums?startDate=${startDate}&endDate=${endDate}`
+        `http://192.168.1.110:3000/api/user/${userEmail}/top-albums?startDate=${startDate}&endDate=${endDate}`
       );
 
       if (!response.ok) {

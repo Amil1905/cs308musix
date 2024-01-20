@@ -2,34 +2,42 @@
 /* eslint-disable no-shadow */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  Alert,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  Image,
-} from 'react-native';
+import { View, Text, FlatList, Alert, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 
 const FriendsScreen = (props) => {
   const [friends, setFriends] = useState([]);
+  const [latestSongs, setLatestSongs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchFriends = async () => {
+    const fetchFriendsAndLatestSongs = async () => {
       try {
         const userEmail = props.route.params.item;
-        const response = await fetch(`http://192.168.1.103:3000/api/users/${userEmail}/friends`);
-        const data = await response.json();
 
-        if (response.ok) {
-          setFriends(data.friends);
-        } else {
-          setError(data.message || 'Something went wrong');
+        // Fetch friends
+        const friendsResponse = await fetch(`http://192.168.1.110:3000/api/users/${userEmail}/friends`);
+        const friendsData = await friendsResponse.json();
+
+        if (!friendsResponse.ok) {
+          setError(friendsData.message || 'Something went wrong');
+          setLoading(false);
+          return;
         }
+
+        setFriends(friendsData.friends);
+
+        // Fetch latest songs
+        const latestSongsResponse = await fetch(`http://192.168.1.110:3000/api/users/${userEmail}/friends-latest-songs`);
+        const latestSongsData = await latestSongsResponse.json();
+
+        if (!latestSongsResponse.ok) {
+          setError(latestSongsData.message || 'Something went wrong');
+          setLoading(false);
+          return;
+        }
+
+        setLatestSongs(latestSongsData.latestSongs);
 
         setLoading(false);
       } catch (error) {
@@ -38,13 +46,13 @@ const FriendsScreen = (props) => {
       }
     };
 
-    fetchFriends();
+    fetchFriendsAndLatestSongs();
   }, []);
 
   const deleteFriendHandle = async (friendEmail) => {
     try {
       const userEmail = props.route.params.item;
-      const response = await fetch(`http://192.168.1.103:3000/api/users/${userEmail}/friends/${friendEmail}`, {
+      const response = await fetch(`http://192.168.1.110:3000/api/users/${userEmail}/friends/${friendEmail}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +78,7 @@ const FriendsScreen = (props) => {
     try {
       const userEmail = props.route.params.item;
       const response = await fetch(
-        `http://192.168.1.103:3000/api/users/${userEmail}/friends/${friendEmail}`,
+        `http://192.168.1.110:3000/api/users/${userEmail}/friends/${friendEmail}`,
         {
           method: 'PUT',
           headers: {
@@ -110,7 +118,6 @@ const FriendsScreen = (props) => {
     <View style={styles.container}>
       <Image source={require('./hp.jpg')} style={[styles.backgroundImage, { marginTop: 35 }]} />
 
-      {/* Header (Always displayed) */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Friends</Text>
       </View>
@@ -144,9 +151,25 @@ const FriendsScreen = (props) => {
                 <Text style={styles.listenButtonText}>Delete</Text>
               </TouchableOpacity>
             </TouchableOpacity>
+            
           )}
         />
+              <Text style={styles.text}>Latest Songs Added by Your Friends:</Text>
+      <FlatList
+        data={latestSongs}
+        keyExtractor={(item) => item.friendId}
+        renderItem={({ item }) => (
+          <View style={styles.latestSongCard}>
+            <Text style={styles.latestSongDetails}>
+              {item.latestSong.name} by {item.latestSong.artist}
+            </Text>
+          </View>
+        )}
+      />
       </ScrollView>
+
+      {/* Display the latest songs */}
+
 
       <View style={styles.bottomBar}>
         <Text style={styles.bottomBarText}>Your Musix, Your Rules.</Text>
@@ -167,7 +190,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    opacity: 0.25, // Adjust the opacity as needed
+    opacity: 0.25, 
   },
   header: {
     backgroundColor: '#222222',
@@ -223,6 +246,23 @@ const styles = StyleSheet.create({
   },
   listenButtonText: {
     color: '#fff',
+  },
+  latestSongCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 8,
+    marginLeft: 16,
+    marginRight: 16,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: '#333333',
+    borderRadius: 8,
+    padding: 10,
+  },
+  latestSongDetails: {
+    flex: 1,
+    fontSize: 14,
+    color: '#333333',
   },
   bottomBar: {
     width: '100%',

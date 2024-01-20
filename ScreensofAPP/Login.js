@@ -55,7 +55,7 @@ function Login({ navigation }) {
 
   const sendEmailToApi = async (email) => {
     try {
-      const apiUrl = 'http://192.168.1.103:3000/api/users'; // Replace with your actual API endpoint
+      const apiUrl = 'http://192.168.1.110:3000/api/users'; // Replace with your actual API endpoint
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {

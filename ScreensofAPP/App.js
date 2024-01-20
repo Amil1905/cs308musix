@@ -20,6 +20,13 @@ import AllSongsPage from '../ScreensofAPP/AllSongs';
 import StatisticsScreen from '../ScreensofAPP/Statistics';
 import TopArtists from '../ScreensofAPP/TopArtists';
 import Graphs from '../ScreensofAPP/Graph';
+import PlaylistCreationPage from '../ScreensofAPP/Playlist';
+import PlaylistCreationPage2 from '../ScreensofAPP/Playlist2';
+import EventList from '../ScreensofAPP/EventList';
+import UserMain from '../ScreensofAPP/UserMain';
+import BlendedPlaylistPage from '../ScreensofAPP/BlendedPlaylistPage';
+import MoodReco from '../ScreensofAPP/MoodReco';
+import LastMonthStats from '../ScreensofAPP/LastMonthStats';
 
 
 
@@ -62,7 +69,21 @@ function App() {
                                                                                  <Stack.Screen name="TopArtists" component={TopArtists}
                 /> 
                                                                                                  <Stack.Screen name="Graphs" component={Graphs}
-                />       
+                />  
+                                                                                                                 <Stack.Screen name="Playlist" component={PlaylistCreationPage}
+                />
+                                                                                                                                 <Stack.Screen name="Playlist2" component={PlaylistCreationPage2}
+                />
+                                                                <Stack.Screen name="EventList" component={EventList}
+                />
+                                                                                <Stack.Screen name="UserMain" component={UserMain}
+                />                
+                                                                                                <Stack.Screen name="BlendedPlaylistPage" component={BlendedPlaylistPage}
+                /> 
+                                                                                                                <Stack.Screen name="MoodReco" component={MoodReco}
+                />
+                                                                                                                                <Stack.Screen name="LastMonthStats" component={LastMonthStats}
+                />                       
             </Stack.Navigator>
 
         </NavigationContainer>

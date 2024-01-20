@@ -97,6 +97,48 @@ const Main = (props) => {
         >
           <Text style={styles.recoText}>Songs in range of a specific dates</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('Playlist', { item: email })}
+        >
+          <Text style={styles.recoText}>Playlist</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('Playlist2', { item: email })}
+        >
+          <Text style={styles.recoText}>Playlist2</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('EventList', { item: email })}
+        >
+          <Text style={styles.recoText}>event</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('UserMain', { item: email })}
+        >
+          <Text style={styles.recoText}>Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('BlendedPlaylistPage', { item: email })}
+        >
+          <Text style={styles.recoText}>Blended</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('MoodReco', { item: email })}
+        >
+          <Text style={styles.recoText}>MoodRecomendations</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.recoButton}
+          onPress={() => props.navigation.navigate('LastMonthStats', { item: email })}
+        >
+          <Text style={styles.recoText}>Stat</Text>
+        </TouchableOpacity>
         
         
       </ScrollView>

@@ -12,7 +12,7 @@ const Recommendation = (props) => {
     const fetchRecommendedSongs = async () => {
       try {
         const userEmail = props.route.params.item; // Replace with the actual user email
-        const response = await fetch(`http://192.168.1.103:3000/api/users/${userEmail}/recommendations`);
+        const response = await fetch(`http://192.168.1.110:3000/api/users/${userEmail}/recommendations`);
         const data = await response.json();
         setRecommendedSongs(data);
       } catch (error) {
@@ -24,7 +24,7 @@ const Recommendation = (props) => {
     const fetchInactivePerformersAlbums = async () => {
       try {
         const userEmail = props.route.params.item; // Replace with the actual user email
-        const response = await fetch(`http://192.168.1.103:3000/api/users/${userEmail}/recommendations/inactivePerformersAlbums`);
+        const response = await fetch(`http://192.168.1.110:3000/api/users/${userEmail}/recommendations/inactivePerformersAlbums`);
         const data = await response.json();
         setInactivePerformersAlbums(data);
       } catch (error) {
@@ -34,7 +34,7 @@ const Recommendation = (props) => {
     const fetchFriendsHighRatingRecommendations = async () => {
       try {
         const userEmail = props.route.params.item;
-        const response = await fetch(`http://192.168.1.103:3000/api/users/${userEmail}/friendsHighRatingRecommendations`);
+        const response = await fetch(`http://192.168.1.110:3000/api/users/${userEmail}/friendsHighRatingRecommendations`);
         const data = await response.json();
         setFriendsHighRatingRecommendations(data.recommendations);
       } catch (error) {
@@ -60,7 +60,9 @@ const Recommendation = (props) => {
               <View style={styles.songDetails}>
                 <Text style={styles.songTitle}>{song.name}</Text>
                 <Text style={styles.songArtist}>Artist: {song.artist}</Text>
-                <Text style={styles.songAlbum}>Album: {song.album}</Text>
+                <Text style={styles.songArtist}>Album: {song.album}</Text>
+                <Text style={styles.songArtist}>Genre: {song.genre}</Text>
+                <Text style={styles.songArtist}>Release Date: {song.releaseDate}</Text>
               </View>
               <TouchableOpacity style={styles.listenButton}>
                 <Text style={styles.listenButtonText}>Listen</Text>
@@ -74,7 +76,9 @@ const Recommendation = (props) => {
                 <Text style={styles.since}>Since you have not added or listened to these songs </Text>
                 <Text style={styles.songTitle}>{song.name}</Text>
                 <Text style={styles.songArtist}>Artist: {song.artist}</Text>
-                <Text style={styles.songAlbum}>Album: {song.album}</Text>
+                <Text style={styles.songArtist}>Album: {song.album}</Text>
+                <Text style={styles.songArtist}>Genre: {song.genre}</Text>
+                <Text style={styles.songArtist}>Release Date: {song.releaseDate}</Text>
               </View>
               <TouchableOpacity style={styles.listenButton}>
                 <Text style={styles.listenButtonText}>Listen</Text>
@@ -88,7 +92,9 @@ const Recommendation = (props) => {
                 <Text>Friends</Text>
                 <Text style={styles.songTitle}>{song.name}</Text>
                 <Text style={styles.songArtist}>Artist: {song.artist}</Text>
-                <Text style={styles.songAlbum}>Album: {song.album}</Text>
+                <Text style={styles.songArtist}>Album: {song.album}</Text>
+                <Text style={styles.songArtist}>Genre: {song.genre}</Text>
+                <Text style={styles.songArtist}>Release Date: {song.releaseDate}</Text>
                 <Text style={styles.recommendedBy}>Recommended by: {song.recommendedBy}</Text>
               </View>
               <TouchableOpacity style={styles.listenButton}>

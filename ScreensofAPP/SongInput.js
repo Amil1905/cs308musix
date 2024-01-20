@@ -1,14 +1,19 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import { TextInput, Text, TouchableOpacity, StyleSheet, View, Alert, Image } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {Picker} from '@react-native-picker/picker';
 
 function SongInput(props) {
   const [songName, setSongName] = useState('');
-  const [artists, setArtists] = useState(['', '', '']);
+  const [numArtists, setNumArtists] = useState(1);
+  const [artists, setArtists] = useState(['']);
   const [albumName, setAlbumName] = useState('');
-  const [genres, setGenres] = useState(['', '', '']);
-  const [releaseDate, setReleaseDate] = useState('');
+  const [numGenres, setNumGenres] = useState(1);
+  const [genres, setGenres] = useState(['']);
+  const [releaseDate, setReleaseDate] = useState(new Date()); // Default to current date
   const [rating, setRating] = useState('');
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleAddSong = async () => {
     if (!songName || !artists[0] || !albumName || !genres[0] || !releaseDate) {
@@ -18,21 +23,21 @@ function SongInput(props) {
 
     try {
       // Assuming you have the user's email from somewhere
-      const email= props.route.params.item
+      const email = props.route.params.item;
 
       // Step 1: Add the song
-      const responseSong = await fetch('http://192.168.1.103:3000/api/songs', {
+      const responseSong = await fetch('http://192.168.1.110:3000/api/songs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           name: songName,
-          artist: artists[0],  // Assuming the first artist is the main artist
+          artist: artists[0], // Assuming the first artist is the main artist
           album: albumName,
-          genre: genres[0],  // Assuming the first genre is the main genre
-          releaseDate: releaseDate,
-          rating:parseInt(rating),
+          genre: genres[0], // Assuming the first genre is the main genre
+          releaseDate: releaseDate.toISOString().split('T')[0], // Format date as needed
+          rating: parseInt(rating),
         }),
       });
 
@@ -46,14 +51,14 @@ function SongInput(props) {
       console.log('Song added successfully:', songData);
 
       // Step 2: Add the song rating to the user's songsAdded array
-      const responseRating = await fetch(`http://192.168.1.103:3000/users/${email}/ratings`, {
+      const responseRating = await fetch(`http://192.168.1.110:3000/users/${email}/ratings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          songId: songData._id,  // Assuming the song ID is returned in the response
-          rating: parseInt(rating),  // Assuming the rating is a number
+          songId: songData._id, // Assuming the song ID is returned in the response
+          rating: parseInt(rating), // Assuming the rating is a number
         }),
       });
 
@@ -70,7 +75,13 @@ function SongInput(props) {
       // Handle error accordingly
     }
   };
-  
+
+  const handleDateChange = (event, selectedDate) => {
+    setShowDatePicker(false);
+    if (selectedDate) {
+      setReleaseDate(selectedDate);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -79,6 +90,7 @@ function SongInput(props) {
       <View style={styles.header}>
         <Text style={styles.headerText}>Add Song</Text>
       </View>
+      
 
       <Text style={styles.text}></Text>
 
@@ -93,14 +105,26 @@ function SongInput(props) {
             onChangeText={(text) => setSongName(text)}
           />
         </View>
+        
 
         <View style={styles.column}>
           <Text style={styles.label}>Artists</Text>
+          <Picker
+            selectedValue={numArtists}
+            onValueChange={(value) => {
+              setNumArtists(value);
+              setArtists(new Array(value).fill('').map((_, index) => artists[index] || ''));
+            }}
+          >
+            {[1, 2, 3].map((num) => (
+              <Picker.Item key={num} label={`${num}`} value={num} />
+            ))}
+          </Picker>
           {artists.map((artist, index) => (
             <TextInput
               key={index}
               style={styles.input}
-              placeholder={`Enter artist ${index + 1}${index > 0 ? ' (optional)' : ''}`}
+              placeholder={`Enter artist ${index + 1}`}
               placeholderTextColor="#333333"
               value={artist}
               onChangeText={(text) => setArtists([...artists.slice(0, index), text, ...artists.slice(index + 1)])}
@@ -123,29 +147,45 @@ function SongInput(props) {
 
         <View style={styles.column}>
           <Text style={styles.label}>Genres</Text>
+          <Picker
+            selectedValue={numGenres}
+            onValueChange={(value) => {
+              setNumGenres(value);
+              setGenres(new Array(value).fill('').map((_, index) => genres[index] || ''));
+            }}
+          >
+            {[1, 2, 3].map((num) => (
+              <Picker.Item key={num} label={`${num}`} value={num} />
+            ))}
+          </Picker>
           {genres.map((genre, index) => (
             <TextInput
               key={index}
               style={styles.input}
-              placeholder={`Enter genre ${index + 1}${index > 0 ? ' (optional)' : ''}`}
+              placeholder={`Enter genre ${index + 1}`}
               placeholderTextColor="#333333"
               value={genre}
               onChangeText={(text) => setGenres([...genres.slice(0, index), text, ...genres.slice(index + 1)])}
             />
           ))}
         </View>
+        
       </View>
 
       <View style={styles.row}>
         <View style={styles.column}>
           <Text style={styles.label}>Release Date</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="YYYY-MM-DD"
-            placeholderTextColor="#333333"
-            value={releaseDate}
-            onChangeText={(text) => setReleaseDate(text)}
-          />
+          <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+            <Text style={styles.input}>{releaseDate.toISOString().split('T')[0]}</Text>
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              value={releaseDate}
+              mode="date"
+              display="spinner"
+              onChange={handleDateChange}
+            />
+          )}
         </View>
 
         <View style={styles.column}>
@@ -158,11 +198,13 @@ function SongInput(props) {
             onChangeText={(text) => setRating(text)}
           />
         </View>
+        
       </View>
-
       <TouchableOpacity style={styles.button} onPress={handleAddSong}>
         <Text style={styles.buttonText}>Add Song</Text>
       </TouchableOpacity>
+
+
 
       <View style={styles.bottomBar}>
         <Text style={styles.bottomBarText}>Your Musix, Your Rules.</Text>
@@ -205,14 +247,13 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
-    borderBottomWidth: 2, 
+    borderBottomWidth: 2,
     paddingTop: 80,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginLeft: 10,
-    marginBottom: 15,
     width: '100%',
   },
   column: {

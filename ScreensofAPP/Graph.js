@@ -14,7 +14,7 @@ const Graphs = (props) => {
   
       try {
         const response = await fetch(
-          `http://192.168.1.110:3000/api/user/${userEmail}/performer-song-counts?performers=${performers}&startDate=${startDate}&endDate=${endDate}`
+          `http://192.168.1.102:3000/api/user/${userEmail}/performer-song-counts?performers=${performers}&startDate=${startDate}&endDate=${endDate}`
         );
   
         if (!response.ok) {

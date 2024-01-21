@@ -18,7 +18,7 @@ const TopArtists = (props) => {
 
     try {
       const response = await fetch(
-        `http://192.168.1.110:3000/api/user/${userEmail}/top-artists?startDate=${startDate}&endDate=${endDate}`
+        `http://192.168.1.102:3000/api/user/${userEmail}/top-artists?startDate=${startDate}&endDate=${endDate}`
       );
 
       if (!response.ok) {

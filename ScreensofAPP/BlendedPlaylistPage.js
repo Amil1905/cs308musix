@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Alert, StyleSheet, FlatList, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, StyleSheet, FlatList, TextInput, Image } from 'react-native';
 
 const BlendedPlaylistPage = (props) => {
   const userEmail = props.route.params.item;
@@ -13,7 +13,7 @@ const BlendedPlaylistPage = (props) => {
 
   const fetchFriends = async () => {
     try {
-      const response = await fetch(`http://192.168.1.110:3000/api/users/${userEmail}/friends`);
+      const response = await fetch(`http://192.168.1.102:3000/api/users/${userEmail}/friends`);
       const data = await response.json();
       console.log(data);
       setFriendsList(data.friends);
@@ -25,7 +25,7 @@ const BlendedPlaylistPage = (props) => {
 
   const createBlendedPlaylist = async () => {
     try {
-      const response = await fetch('http://192.168.1.110:3000/api/create-blended-playlist', {
+      const response = await fetch('http://192.168.1.102:3000/api/create-blended-playlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +48,15 @@ const BlendedPlaylistPage = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Your Friends:</Text>
+    <Image source={require('./hp.jpg')} style={[styles.backgroundImage, { marginTop: 35 }]} />
+
+   <View style={styles.header}>
+     <Text style={styles.headerText}>Blended Playlist</Text>
+   </View>
+   
+   <Text style={[styles.friends, {marginTop: 50}]}>Your Friends:</Text>
+   
+
       <FlatList
   data={friendsList}
   keyExtractor={(item) => item.email}
@@ -62,7 +70,7 @@ const BlendedPlaylistPage = (props) => {
   )}
 />
 
-      <Text style={styles.headerText}>Selected Friend: {friendEmail}</Text>
+      <Text style={styles.headerTexts}>Selected Friend: {friendEmail}</Text>
 
       <TextInput
         style={styles.input}
@@ -81,12 +89,32 @@ const BlendedPlaylistPage = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.25, // Adjust the opacity as needed
+  },
+  header: {
+    backgroundColor: '#222222',
+    padding: 5,
+    alignItems: 'center',
+    position: 'absolute',
+    width: '100%',
+    top: 0,
   },
   headerText: {
-    fontSize: 18,
+    color: '#FFFFFF',
+    fontSize: 15,
     fontWeight: 'bold',
-    marginBottom: 8,
+  },
+  headerTexts: {
+    color: 'black',
+    fontSize: 15,
+    fontWeight: 'bold',
   },
   friendItem: {
     padding: 8,
@@ -103,7 +131,7 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
   },
   button: {
-    backgroundColor: 'blue',
+    backgroundColor: '#333333',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',

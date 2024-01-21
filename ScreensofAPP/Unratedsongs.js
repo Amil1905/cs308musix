@@ -9,7 +9,7 @@ const Unratedsongs = (props) => {
   const fetchUnratedSongs = async () => {
     try {
       const userEmail = props.route.params.item;
-      const response = await fetch(`http://192.168.1.110:3000/users/${userEmail}/unratedSongs`);
+      const response = await fetch(`http://192.168.1.102:3000/users/${userEmail}/unratedSongs`);
       const data = await response.json();
       setUnratedSongs(data);
       const initialRatings = {};
@@ -29,7 +29,7 @@ const Unratedsongs = (props) => {
   const updateRating = async (songId) => {
     try {
       const userEmail = props.route.params.item;
-      const response = await fetch(`http://192.168.1.110:3000/user/${userEmail}/song/${songId}/rate`, {
+      const response = await fetch(`http://192.168.1.102:3000/user/${userEmail}/song/${songId}/rate`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

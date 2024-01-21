@@ -1,49 +1,73 @@
 /* eslint-disable prettier/prettier */
-// Main.js
-
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native'; // make sure to install expo or react-native-vector-icons
 
-const Main = (props) => {
+const Library = (props) => {
   const email = props.route?.params?.item;
 
   return (
     <View style={styles.container}>
       {/* Background Image */}
-      <Image source={require('./main.png')} style={[styles.backgroundImage, { marginTop: 35 }]} />
+      <Image source={require('./library.png')} style={[styles.backgroundImage,{marginTop:50} ]} />
 
       {/* Header (Always displayed) */}
       <View style={styles.header}>
-        <Text style={styles.headerText}>{`Welcome ${email} 👋`}</Text>
+        <Text style={styles.headerText}>{`musiX Library`}</Text>
       </View>
 
-       {/* Navigation (Always displayed) */}
-       <View style={styles.navigation}>
-        
-        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('MoodReco', { item: email })}>
-          <Text style={styles.navButtonText}>Your Mood</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('Recommendation', { item: email })}>
-          <Text style={styles.navButtonText}>Recommendations</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.navButton} onPress={() => props.navigation.navigate('Login', { item: email })}>
-          <Text style={styles.navButtonText}>Logout</Text>
-        </TouchableOpacity>
-      </View>
+       
 
       {/* Content */}
-      <ScrollView style={styles.content}>
+      <ScrollView style={ [styles.content, { marginTop: 185, marginLeft: 70 } ]}>
+            <TouchableOpacity
+                style={styles.recoButton}
+                onPress={() => props.navigation.navigate('AllSongs', { item: email })}
+            >
+                <Text style={styles.recoText}>All Songs</Text>
+            </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[styles.buttonContainer, { marginTop: 250 }]}
-        onPress={() => props.navigation.navigate('EventList', { item: email })}
-      >
-        
-          <Text style={styles.buttonText}>View Events</Text>
 
-      </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.recoButton}
+                onPress={() => props.navigation.navigate('SongInput', { item: email })}
+            >
+                <Text style={styles.recoText}>Add Song</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.recoButton}
+                onPress={() => props.navigation.navigate('BatchInput', { item: email })}
+            >
+                <Text style={styles.recoText}>Add Batch Input</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.recoButton}
+                onPress={() => props.navigation.navigate('Delete', { item: email })}
+            >
+                <Text style={styles.recoText}>Delete Song</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.recoButton}
+                onPress={() => props.navigation.navigate('Playlist2', { item: email })}
+            >
+                <Text style={styles.recoText}>View Playlists</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.recoButton}
+                onPress={() => props.navigation.navigate('Playlist', { item: email })}
+            >
+                <Text style={styles.recoText}>Create Playlist</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.recoButton}
+                onPress={() => props.navigation.navigate('BlendedPlaylistPage', { item: email })}
+            >
+                <Text style={styles.recoText}>Blended Playlists</Text>
+            </TouchableOpacity>
+
 
       </ScrollView>
 
@@ -91,11 +115,11 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#222222',
     padding: 20,
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   headerText: {
     color: '#FFFFFF',
-    fontSize: 20,
+    fontSize: 28,
     fontWeight: 'bold',
   },
   navigation: {
@@ -114,13 +138,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   recoButton: {
-    borderBottomWidth: 1, // Add a border at the bottom
-    borderBottomColor: '#000', // Set the border color
-    paddingVertical: 25, // Adjust padding as needed
-    paddingHorizontal: 20, // Adjust padding as needed
+    backgroundColor: '#333333',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+    width: '80%',
+    alignItems: 'center',
   },
   recoText: {
-    textAlign: 'center',
+    color: '#FFFFFF',
+    fontSize: 18,
     fontWeight: 'bold',
   },
   bottomBar: {
@@ -147,7 +174,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 20,
     alignSelf: 'center', // Center the button horizontally
-    width: 160,
   },
 
   buttonText: {
@@ -158,4 +184,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Main;
+export default Library;

@@ -13,7 +13,7 @@ const ExportSongsPage = () => {
 
   const handleExportByArtist = async () => {
     try {
-      const url = `http://192.168.1.110:3000/api/export/songs/artist?artist=${encodeURIComponent(artist)}`;
+      const url = `http://192.168.1.102:3000/api/export/songs/artist?artist=${encodeURIComponent(artist)}`;
       const response = await fetch(url, { method: 'GET' });
 
       if (response.ok) {
@@ -35,7 +35,7 @@ const ExportSongsPage = () => {
 
   const handleExportByAlbum = async () => {
     try {
-      const url = `http://192.168.1.110:3000/api/export/songs/album?album=${encodeURIComponent(album)}`;
+      const url = `http://192.168.1.102:3000/api/export/songs/album?album=${encodeURIComponent(album)}`;
       const response = await fetch(url, { method: 'GET' });
   
       if (response.ok) {
@@ -57,7 +57,7 @@ const ExportSongsPage = () => {
   
   const handleExportByDateRange = async () => {
     try {
-      const url = `http://192.168.1.110:3000/api/export/songs/release-date?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
+      const url = `http://192.168.1.102:3000/api/export/songs/release-date?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
       const response = await fetch(url, { method: 'GET' });
   
       if (response.ok) {
@@ -78,7 +78,7 @@ const ExportSongsPage = () => {
 
   const handleExportByCustomFilter = async () => {
     try {
-      const url = `http://192.168.1.110:3000/api/export/songs/custom-filter?artist=${encodeURIComponent(customArtist)}&rating=${encodeURIComponent(customRating)}`;
+      const url = `http://192.168.1.102:3000/api/export/songs/custom-filter?artist=${encodeURIComponent(customArtist)}&rating=${encodeURIComponent(customRating)}`;
       const response = await fetch(url, { method: 'GET' });
   
       if (response.ok) {

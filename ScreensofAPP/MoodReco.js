@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, StyleSheet, Image } from 'react-native';
 
 const MoodReco = (props) => {
   const [selectedMood, setSelectedMood] = useState(null);
@@ -10,7 +10,7 @@ const MoodReco = (props) => {
 
   const handleMoodButtonClick = async (mood) => {
     try {
-      const response = await fetch('http://192.168.1.110:3000/api/generatePlaylist', {
+      const response = await fetch('http://192.168.1.102:3000/api/generatePlaylist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ const MoodReco = (props) => {
     }
 
     try {
-      const response = await fetch('http://192.168.1.110:3000/api/likePlaylist', {
+      const response = await fetch('http://192.168.1.102:3000/api/likePlaylist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,27 +68,35 @@ const MoodReco = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Select Mood:</Text>
+    {/* Background Image */}
+    <Image source={require('./hp.jpg')} style={[styles.backgroundImage, ]} />
+
+    {/* Header (Always displayed) */}
+    <View style={styles.header}>
+      <Text style={styles.headerText}>{`Mood Advisor`}</Text>
+    </View>
+    <Text style={styles.sectionTitle}>Select Mood:</Text>
+
 
       <TouchableOpacity
         style={[styles.moodButton, selectedMood === 'happy' && styles.selectedMood]}
         onPress={() => handleMoodButtonClick('happy')}
       >
-        <Text>Happy</Text>
+        <Text>Happy 😃</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.moodButton, selectedMood === 'sad' && styles.selectedMood]}
         onPress={() => handleMoodButtonClick('sad')}
       >
-        <Text>Sad</Text>
+        <Text>Sad 😢</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.moodButton, selectedMood === 'energetic' && styles.selectedMood]}
         onPress={() => handleMoodButtonClick('energetic')}
       >
-        <Text>Energetic</Text>
+        <Text>Energetic 🚀</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.likeButton} onPress={handleLikeButtonClick}>
@@ -101,28 +109,45 @@ const MoodReco = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: 'relative',
   },
-  headerText: {
-    fontSize: 18,
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.75,
+  },
+  header: {
+    color: '#FFFFFF',
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
+    textAlign: 'center',
+    backgroundColor: '#222222',
+    padding: 16,
+    width: '100%',
+  },
+  headerText: {
+    color: '#FFFFFF',
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
   moodButton: {
     backgroundColor: '#DDDDDD',
     padding: 12,
     marginBottom: 16,
     borderRadius: 5,
-    width: 200,
+    width: 400,
     alignItems: 'center',
   },
   selectedMood: {
     backgroundColor: 'lightblue',
   },
   likeButton: {
-    backgroundColor: 'blue',
+    backgroundColor: '#333333',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
@@ -131,6 +156,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  sectionTitle:{
+    color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold',
+  }
 });
 
 export default MoodReco;

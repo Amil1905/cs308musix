@@ -26,7 +26,7 @@ function SongInput(props) {
       const email = props.route.params.item;
 
       // Step 1: Add the song
-      const responseSong = await fetch('http://192.168.1.110:3000/api/songs', {
+      const responseSong = await fetch('http://192.168.1.102:3000/api/songs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ function SongInput(props) {
       console.log('Song added successfully:', songData);
 
       // Step 2: Add the song rating to the user's songsAdded array
-      const responseRating = await fetch(`http://192.168.1.110:3000/users/${email}/ratings`, {
+      const responseRating = await fetch(`http://192.168.1.102:3000/users/${email}/ratings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

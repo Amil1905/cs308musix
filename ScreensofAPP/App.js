@@ -27,6 +27,10 @@ import UserMain from '../ScreensofAPP/UserMain';
 import BlendedPlaylistPage from '../ScreensofAPP/BlendedPlaylistPage';
 import MoodReco from '../ScreensofAPP/MoodReco';
 import LastMonthStats from '../ScreensofAPP/LastMonthStats';
+import Explore from '../ScreensofAPP/Explore';
+import Library from '../ScreensofAPP/Library';
+import ProfilePage from '../ScreensofAPP/ProfilePage';
+
 
 
 
@@ -83,7 +87,14 @@ function App() {
                                                                                                                 <Stack.Screen name="MoodReco" component={MoodReco}
                 />
                                                                                                                                 <Stack.Screen name="LastMonthStats" component={LastMonthStats}
-                />                       
+                />
+                                                                <Stack.Screen name="Explore" component={Explore}
+                />
+                                                                <Stack.Screen name="Library" component={Library}
+                />
+                                                                                <Stack.Screen name="ProfilePage" component={ProfilePage}
+                />
+                       
             </Stack.Navigator>
 
         </NavigationContainer>

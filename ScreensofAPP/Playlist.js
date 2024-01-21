@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity, TextInput, StyleSheet, Alert } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, TextInput, StyleSheet, Alert, Image } from 'react-native';
 
 const PlaylistCreationPage = (props) => {
   const [allSongs, setAllSongs] = useState([]);
@@ -16,7 +16,7 @@ const PlaylistCreationPage = (props) => {
   const fetchAllSongs = async () => {
     // Fetch all songs from your API
     try {
-      const response = await fetch('http://192.168.1.110:3000/api/songs');
+      const response = await fetch('http://192.168.1.102:3000/api/songs');
       
       if (!response.ok) {
         const errorMessage = await response.text();
@@ -60,7 +60,7 @@ const PlaylistCreationPage = (props) => {
       }
 
       // Make the API request
-      const response = await fetch(`http://192.168.1.110:3000/users/${userEmail}/playlists`, {
+      const response = await fetch(`http://192.168.1.102:3000/users/${userEmail}/playlists`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,11 +87,16 @@ const PlaylistCreationPage = (props) => {
   };
 
   return (
+    
     <View style={styles.container}>
-      <Text style={styles.header}>Create Playlist</Text>
+    <Image source={require('./hp.jpg')} style={[styles.backgroundImage, { marginTop: 35 }]} />
+
+    <View style={styles.header}>
+      <Text style={styles.headerText}>Your Playlists</Text>
+    </View>
 
       <TextInput
-        style={styles.input}
+        style={[styles.input, {marginTop:75}]}
         placeholder="Playlist Name"
         value={playlistName}
         onChangeText={text => setPlaylistName(text)}
@@ -123,12 +128,27 @@ const PlaylistCreationPage = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    opacity: 0.25, // Adjust the opacity as needed
   },
   header: {
-    fontSize: 20,
+    backgroundColor: '#222222',
+    padding: 20,
+    alignItems: 'center',
+    position: 'absolute',
+    width: '100%',
+    top: 0,
+  },
+  headerText: {
+    color: '#FFFFFF',
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 16,
   },
   input: {
     height: 40,
@@ -149,7 +169,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightblue',
   },
   button: {
-    backgroundColor: 'blue',
+    backgroundColor: '#333333',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',

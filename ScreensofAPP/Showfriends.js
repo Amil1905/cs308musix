@@ -16,7 +16,7 @@ const FriendsScreen = (props) => {
         const userEmail = props.route.params.item;
 
         // Fetch friends
-        const friendsResponse = await fetch(`http://192.168.1.110:3000/api/users/${userEmail}/friends`);
+        const friendsResponse = await fetch(`http://192.168.1.102:3000/api/users/${userEmail}/friends`);
         const friendsData = await friendsResponse.json();
 
         if (!friendsResponse.ok) {
@@ -28,7 +28,7 @@ const FriendsScreen = (props) => {
         setFriends(friendsData.friends);
 
         // Fetch latest songs
-        const latestSongsResponse = await fetch(`http://192.168.1.110:3000/api/users/${userEmail}/friends-latest-songs`);
+        const latestSongsResponse = await fetch(`http://192.168.1.102:3000/api/users/${userEmail}/friends-latest-songs`);
         const latestSongsData = await latestSongsResponse.json();
 
         if (!latestSongsResponse.ok) {
@@ -52,7 +52,7 @@ const FriendsScreen = (props) => {
   const deleteFriendHandle = async (friendEmail) => {
     try {
       const userEmail = props.route.params.item;
-      const response = await fetch(`http://192.168.1.110:3000/api/users/${userEmail}/friends/${friendEmail}`, {
+      const response = await fetch(`http://192.168.1.102:3000/api/users/${userEmail}/friends/${friendEmail}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ const FriendsScreen = (props) => {
     try {
       const userEmail = props.route.params.item;
       const response = await fetch(
-        `http://192.168.1.110:3000/api/users/${userEmail}/friends/${friendEmail}`,
+        `http://192.168.1.102:3000/api/users/${userEmail}/friends/${friendEmail}`,
         {
           method: 'PUT',
           headers: {

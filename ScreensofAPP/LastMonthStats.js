@@ -13,7 +13,7 @@ const LastMonthStats = (props) => {
     const fetchLastMonthStats = async () => {
       try {
         const userEmail = props.route.params.item;// Assuming the email is passed through navigation params
-        const response = await fetch(`http://192.168.1.110:3000/api/users/songsAddedLastMonth/${userEmail}`);
+        const response = await fetch(`http://192.168.1.102:3000/api/users/songsAddedLastMonth/${userEmail}`);
         
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
